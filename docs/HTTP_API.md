@@ -31,7 +31,7 @@ Response schema:
 }
 ```
 
-If the `compact` query string is provided:
+If the `compact=true` query string is provided:
 
 ```json
 {
@@ -91,7 +91,7 @@ Response schema:
 }
 ```
 
-If the `compact` query string is provided:
+If the `compact=true` query string is provided:
 
 ```json
 []{
