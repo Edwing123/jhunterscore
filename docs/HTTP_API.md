@@ -8,9 +8,9 @@ All routes are under `/api/v1`.
 
 Get all the offers.
 
-| Path     | Method | ContentType | QueryString |
-| :------- | :----- | :---------- | :---------- |
-| /offers/ | GET    | JSON        | compact     |
+| Path       | Method | ContentType | QueryString |
+| :--------- | :----- | :---------- | :---------- |
+| `/offers/` | GET    | JSON        | compact     |
 
 Response schema:
 
@@ -47,9 +47,9 @@ If the `compact` query string is provided:
 
 Get an offer by id.
 
-| Path         | Method | ContentType | QueryString |
-| :----------- | :----- | :---------- | :---------- |
-| /offers/{id} | GET    | JSON        | None        |
+| Path           | Method | ContentType | QueryString |
+| :------------- | :----- | :---------- | :---------- |
+| `/offers/{id}` | GET    | JSON        | None        |
 
 Response schema:
 
@@ -74,9 +74,9 @@ Response schema:
 
 Get all the learning resources.
 
-| Path        | Method | ContentType | QueryString |
-| :---------- | :----- | :---------- | :---------- |
-| /resources/ | GET    | JSON        | compact     |
+| Path          | Method | ContentType | QueryString |
+| :------------ | :----- | :---------- | :---------- |
+| `/resources/` | GET    | JSON        | compact     |
 
 Response schema:
 
@@ -106,9 +106,9 @@ If the `compact` query string is provided:
 
 Get a learning resource by id.
 
-| Path            | Method | ContentType | QueryString |
-| :-------------- | :----- | :---------- | :---------- |
-| /resources/{id} | GET    | JSON        | None        |
+| Path              | Method | ContentType | QueryString |
+| :---------------- | :----- | :---------- | :---------- |
+| `/resources/{id}` | GET    | JSON        | None        |
 
 Response schema:
 
@@ -121,4 +121,4 @@ Response schema:
   "content": "...",
   "published_at": "yyy-mm-dd"
 }
-```
+```****
