@@ -39,7 +39,7 @@ type Resource struct {
 type CompactResource struct {
 	Id          int    `json:"id"`
 	Title       string `json:"title"`
-	Autor       string `json:"author"`
+	Author      string `json:"author"`
 	PublishedAt string `json:"published_at"`
 }
 
