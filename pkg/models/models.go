@@ -1,28 +1,29 @@
 package models
 
 type Offer struct {
-	Id           int      `json:"id"`
-	Title        string   `json:"title"`
-	Role         string   `json:"role"`
-	Company      string   `json:"company"`
-	Description  string   `json:"description"`
-	Requirements []string `json:"requirements"`
-	Contract     string   `json:"contract"`
-	Location     string   `json:"location"`
-	Salary       string   `json:"salary"`
-	Benefits     []string `json:"benefits"`
-	ContactInfo  string   `json:"contact_info"`
-	PublishedAt  string   `json:"published_at"`
-	LastUpdate   string   `json:"last_update,omitempty"`
-	IsPublished  bool     `json:"is_published,omitempty"`
+	Id          int    `json:"id"`
+	Title       string `json:"title"`
+	Role        string `json:"role"`
+	Company     string `json:"company"`
+	Content     string `json:"content"`
+	Contract    string `json:"contract"`
+	Location    string `json:"location"`
+	Salary      string `json:"salary"`
+	ContactInfo string `json:"contact_info"`
+	CreatedAt   string `json:"created_at"`
+	Author      string `json:"author"`
+	IsPublished bool   `json:"is_published,omitempty"`
 }
 
 type CompactOffer struct {
 	Id          int    `json:"id"`
 	Title       string `json:"title"`
+	Role        string `json:"role"`
+	Company     string `json:"company"`
 	Contract    string `json:"contract"`
 	Salary      string `json:"salary"`
-	PublishedAt string `json:"published_at"`
+	CreatedAt   string `json:"created_at"`
+	IsPublished bool   `json:"is_published,omitempty"`
 }
 
 type Resource struct {
@@ -31,16 +32,15 @@ type Resource struct {
 	Author      string `json:"author"`
 	Summary     string `json:"summary"`
 	Content     string `json:"content"`
-	PublishedAt string `json:"published_at"`
-	LastUpdate  string `json:"last_update,omitempty"`
+	CreatedAt   string `json:"created_at"`
 	IsPublished bool   `json:"is_published,omitempty"`
 }
 
 type CompactResource struct {
-	Id          int    `json:"id"`
-	Title       string `json:"title"`
-	Author      string `json:"author"`
-	PublishedAt string `json:"published_at"`
+	Id        int    `json:"id"`
+	Title     string `json:"title"`
+	Author    string `json:"author"`
+	CreatedAt string `json:"created_at"`
 }
 
 type User struct {
@@ -51,4 +51,5 @@ type User struct {
 	LastName  string
 	Role      string
 	IsActive  bool
+	CreatedAt string
 }
