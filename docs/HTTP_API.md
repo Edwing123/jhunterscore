@@ -10,7 +10,7 @@ Get all the offers.
 
 | Path       | Method | ContentType | QueryString |
 | :--------- | :----- | :---------- | :---------- |
-| `/offers/` | GET    | JSON        | compact     |
+| `/offers/` | GET    | JSON        | `c`         |
 
 Response schema:
 
@@ -20,26 +20,26 @@ Response schema:
   "title": "...",
   "role": "...",
   "company": "...",
-  "description": "...",
-  "requirements": ["..."],
+  "content": "...",
   "contract": "...",
   "location": "...",
   "salary": "...",
-  "benefits": ["..."],
   "contact_info": "...",
-  "published_at": "yyy-mm-dd"
+  "created_at": "yyy-mm-dd"
 }
 ```
 
-If the `compact=true` query string is provided:
+If the `c=true` (`c` is for compact representation) query string is provided:
 
 ```json
 {
   "id": 0,
   "title": "...",
+  "role": "...",
+  "company": "...",
   "contract": "...",
   "salary": "...",
-  "published_at": "yyy-mm-dd"
+  "created_at": "yyy-mm-dd"
 }
 ```
 
@@ -59,14 +59,12 @@ Response schema:
   "title": "...",
   "role": "...",
   "company": "...",
-  "description": "...",
-  "requirements": ["..."],
+  "content": "...",
   "contract": "...",
   "location": "...",
   "salary": "...",
-  "benefits": ["..."],
   "contact_info": "...",
-  "published_at": "yyy-mm-dd"
+  "created_at": "yyy-mm-dd"
 }
 ```
 
@@ -76,7 +74,7 @@ Get all the learning resources.
 
 | Path          | Method | ContentType | QueryString |
 | :------------ | :----- | :---------- | :---------- |
-| `/resources/` | GET    | JSON        | compact     |
+| `/resources/` | GET    | JSON        | `c`         |
 
 Response schema:
 
@@ -87,22 +85,22 @@ Response schema:
   "author": "...",
   "summary": "...",
   "content": "...",
-  "published_at": "yyy-mm-dd"
+  "created_at": "yyy-mm-dd"
 }
 ```
 
-If the `compact=true` query string is provided:
+If the `c=true` query string is provided:
 
 ```json
 []{
   "id": 0,
   "title": "...",
   "author": "...",
-  "published_at": "yyy-mm-dd"
+  "created_at": "yyy-mm-dd"
 }
 ```
 
-### resources/id
+### Resource by id
 
 Get a learning resource by id.
 
@@ -119,6 +117,23 @@ Response schema:
   "author": "...",
   "summary": "...",
   "content": "...",
-  "published_at": "yyy-mm-dd"
+  "created_at": "yyy-mm-dd"
+}
+```
+
+### Companies
+
+Get all the companies registered in the system.
+
+| Path          | Method | ContentType | QueryString |
+| :------------ | :----- | :---------- | :---------- |
+| `/companies/` | GET    | JSON        | None        |
+
+Response schema:
+
+```json
+[]{
+  "id": 0,
+  "name": "...",
 }
 ```

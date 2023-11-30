@@ -1,4 +1,14 @@
-CREATE DATABASE jobshunters
+CREATE DATABASE "jobshunters"
+
+CREATE TABLE "roles" (
+	"role_id" INTEGER PRIMARY KEY AUTOINCREMENT,
+	-- Either "cms" or "admin".
+	"name" VARCHAR(5) UNIQUE NOT NULL CHECK("name" IN ("cms", "admin"))
+);
+
+INSERT INTO "roles" ("name") VALUES
+	("cms"),
+	("admin");
 
 CREATE TABLE "users" (
 	"user_id" INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -6,6 +16,7 @@ CREATE TABLE "users" (
 	"password" VARCHAR(60) NOT NULL,
 	"first_name" VARCHAR(50) UNIQUE NOT NULL,
 	"last_name" VARCHAR(50) UNIQUE NOT NULL,
+	"role_id" INTEGER NOT NULL REFERENCES "roles"("role_id"),
 	-- UTC time zone timestamp.
 	"created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	"is_active" TINYINT(1) NOT NULL DEFAULT 1
@@ -16,7 +27,7 @@ CREATE UNIQUE INDEX "idx_users_username" ON "users"("username");
 
 CREATE TABLE "locations" (
 	"location_id" INTEGER PRIMARY KEY AUTOINCREMENT,
-	"name" VARCHAR(50) UNIQUE NOT NULL,
+	"name" VARCHAR(15) UNIQUE NOT NULL,
 );
 
 -- Populate the table with every city in Nicaragua.
@@ -39,13 +50,20 @@ INSERT INTO "locations"("name") VALUES
 	("Río San Juan"),
 	("Rivas");
 
+CREATE TABLE "companies" (
+	"company_id" INTEGER PRIMARY KEY AUTOINCREMENT,
+	"name" VARCHAR(100) UNIQUE NOT NULL
+);
+
+-- Index for company name.
+CREATE UNIQUE INDEX "idx_companies_name" ON "companies"("name");
+
 
 CREATE TABLE "offers" (
-	"id" INTEGER PRIMARY KEY AUTOINCREMENT,
+	"offer_id" INTEGER PRIMARY KEY AUTOINCREMENT,
 	"title" VARCHAR(100) UNIQUE NOT NULL,
-	-- Either "admin" or "cms".
-	"role" VARCHAR(20) NOT NULL CHECK("role" IN ("admin", "cms")),
-	"company" VARCHAR(100) NOT NULL,
+	"role" VARCHAR(20) NOT NULL,
+	"company_id" INTEGER NOT NULL REFERENCES "companies"("company_id"),
 	"content" TEXT NOT NULL,
 	-- Either "pasantia" or "trabajo".
 	"contract" VARCHAR(20) NOT NULL CHECK("contract" IN ("pasantia", "trabajo")),
@@ -56,6 +74,10 @@ CREATE TABLE "offers" (
 	"user_id" INTEGER NOT NULL REFERENCES "users"("user_id")
 );
 
+-- Create index for "role" and "title".
+CREATE UNIQUE INDEX "idx_offers_title" ON "offers"("title");
+CREATE UNIQUE INDEX "idx_offers_role" ON "offers"("role");
+
 CREATE TABLE "resources" (
 	"resource_id" INTEGER PRIMARY KEY AUTOINCREMENT,
 	"title" VARCHAR(100) UNIQUE NOT NULL,
@@ -65,3 +87,6 @@ CREATE TABLE "resources" (
 	"is_published" TINYINT(1) NOT NULL DEFAULT 0,
 	"user_id" INTEGER NOT NULL REFERENCES "users"("user_id")
 );
+
+-- Create index for "title".
+CREATE UNIQUE INDEX "idx_resources_title" ON "resources"("title");
