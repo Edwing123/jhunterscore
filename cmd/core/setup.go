@@ -20,15 +20,19 @@ func (core *Core) Setup() *fiber.App {
 		core.ManageSession,
 	)
 
-	api := app.Group("/api/v1")
+	api := app.Group("/api/")
+	v1 := api.Group("/v1")
 
-	offers := api.Group("/offers")
+	offers := v1.Group("/offers")
 	offers.Get("/", core.HandldeOffers)
 	offers.Get("/:id<int>", core.HandldeOfferById)
 
-	resources := api.Group("/resources")
+	resources := v1.Group("/resources")
 	resources.Get("/", core.HandldeResources)
 	resources.Get("/:id<int>", core.HandldeResourceById)
+
+	companies := v1.Group("/companies")
+	companies.Get("/", core.HandldeCompanies)
 
 	return app
 }

@@ -58,10 +58,56 @@ func (core *Core) HandldeOfferById(c *fiber.Ctx) error {
 
 func (core *Core) HandldeResources(c *fiber.Ctx) error {
 	isCompact := c.QueryBool("c", false)
-	_ = isCompact
+
+	if isCompact {
+		c.JSON(fiber.Map{
+			"ok":   true,
+			"data": getCompactResources(),
+		})
+		return nil
+	}
+
+	c.JSON(fiber.Map{
+		"ok":   true,
+		"data": mockResources,
+	})
+
 	return nil
 }
 
 func (core *Core) HandldeResourceById(c *fiber.Ctx) error {
+	// Get resource id from params.
+	id := c.Params("id")
+
+	// Find resource by id.
+	var resource models.Resource
+
+	for _, r := range mockResources {
+		if strconv.Itoa(r.Id) == id {
+			resource = r
+			break
+		}
+	}
+
+	if resource.Id == 0 {
+		c.JSON(fiber.Map{
+			"ok":    false,
+			"error": "Recurso no encontrado",
+		})
+		return nil
+	}
+
+	c.JSON(fiber.Map{
+		"ok":   true,
+		"data": resource,
+	})
+
 	return nil
+}
+
+func (core *Core) HandldeCompanies(c *fiber.Ctx) error {
+	return c.JSON(fiber.Map{
+		"ok":   true,
+		"data": mockCompanies,
+	})
 }

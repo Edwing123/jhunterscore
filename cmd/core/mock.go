@@ -246,6 +246,56 @@ var (
 			CreatedAt:   "2023-11-27",
 		},
 	}
+
+	mockResources = []models.Resource{
+		{
+			Id:        1,
+			Title:     "Aprender sobre los CV",
+			Author:    "Edwin Garcia",
+			Content:   "Hola, esta es una guia para aprender a crear un CV.\n\n## Que es un CV?\n\nUn CV es un documento que se utiliza para presentar tus habilidades y experiencia profesional a un empleador.\n\n## Que debe contener un CV?\n\n- Información personal\n- Experiencia laboral\n- Educación\n- Habilidades\n- Referencias\n",
+			Summary:   "Guia para aprender a crear un CV",
+			CreatedAt: "2023-11-21",
+		},
+		{
+			Id:        2,
+			Title:     "Terminos comunes en el entorno laboral",
+			Author:    "Kenroy Norori",
+			Content:   "Hola, esta es una guia para aprender terminos comunes en el entorno laboral.\n\n## Que es un CV?\n\nUn CV es un documento que se utiliza para presentar tus habilidades y experiencia profesional a un empleador.\n\n## Que debe contener un CV?\n\n- Información personal\n- Experiencia laboral\n- Educación\n- Habilidades\n- Referencias\n",
+			Summary:   "Terminos comunes en el entorno laboral",
+			CreatedAt: "2023-11-18",
+		},
+		{
+			Id:        3,
+			Title:     "Consejos para afrontar una entrevista de trabajo",
+			Author:    "Enmanuel Olivas",
+			Summary:   "Consejos para afrontar una entrevista de trabajo",
+			Content:   "# Que es una entrevista?\n\nUna entrevista es un proceso de selección que se realiza a los candidatos para un puesto de trabajo.\n\n## Consejos\n\n- Prepararse para la entrevista\n- Vestirse adecuadamente\n- Llegar a tiempo\n- Ser amable\n- Ser honesto\n- Ser positivo\n- Ser agradecido\n",
+			CreatedAt: "2023-11-25",
+		},
+		{
+			Id:        4,
+			Title:     "Mi experiencia trabajando para el gobierno",
+			Author:    "Carlos Lopez",
+			Summary:   "Mi experiencia trabajando para el gobierno",
+			Content:   "# Mi experiencia trabajando para el gobierno\n\nHola, mi nombre es Carlos Lopez y esta es mi experiencia trabajando para el gobierno.\n\n## Como fue mi experiencia?\n\nMi experiencia fue muy buena, aprendi mucho y conoci a muchas personas.\n\n## Que aprendi?\n\nAprendi a trabajar en equipo, a ser responsable y a ser puntual.\n\n## Que recomiendo?\n\nRecomiendo trabajar para el gobierno porque es una experiencia que te ayuda a crecer como persona y profesionalmente.\n",
+			CreatedAt: "2023-11-29",
+		},
+	}
+
+	mockCompanies = []models.Company{
+		{
+			Id:   1,
+			Name: "Google",
+		},
+		{
+			Id:   2,
+			Name: "DevTo",
+		},
+		{
+			Id:   3,
+			Name: "Finanzas SA",
+		},
+	}
 )
 
 func getCompactOffers() []models.CompactOffer {
@@ -263,4 +313,16 @@ func getCompactOffers() []models.CompactOffer {
 		})
 	}
 	return compactOffers
+}
+
+func getCompactResources() []models.CompactResource {
+	var compactResources []models.CompactResource
+
+	for _, resource := range mockResources {
+		compactResources = append(compactResources, models.CompactResource{
+			Id:    resource.Id,
+			Title: resource.Title,
+		})
+	}
+	return compactResources
 }
