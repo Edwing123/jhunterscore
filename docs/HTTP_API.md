@@ -23,7 +23,7 @@ Response schema:
   "content": "...",
   "contract": "...",
   "location": "...",
-  "salary": "...",
+  "salary": 0,
   "contact_info": "...",
   "created_at": "yyy-mm-dd"
 }
@@ -38,7 +38,7 @@ If the `c=true` (`c` is for compact representation) query string is provided:
   "role": "...",
   "company": "...",
   "contract": "...",
-  "salary": "...",
+  "salary": 0,
   "created_at": "yyy-mm-dd"
 }
 ```
@@ -62,7 +62,7 @@ Response schema:
   "content": "...",
   "contract": "...",
   "location": "...",
-  "salary": "...",
+  "salary": 0,
   "contact_info": "...",
   "created_at": "yyy-mm-dd"
 }
