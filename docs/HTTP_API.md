@@ -20,6 +20,7 @@ Response schema:
   "title": "...",
   "role": "...",
   "company": "...",
+  "company_logo_url": "...",
   "content": "...",
   "contract": "...",
   "location": "...",
@@ -37,6 +38,7 @@ If the `c=true` (`c` is for compact representation) query string is provided:
   "title": "...",
   "role": "...",
   "company": "...",
+  "company_logo_url": "...",
   "contract": "...",
   "salary": 0,
   "created_at": "yyy-mm-dd"
@@ -59,6 +61,7 @@ Response schema:
   "title": "...",
   "role": "...",
   "company": "...",
+  "company_logo_url": "...",
   "content": "...",
   "contract": "...",
   "location": "...",
