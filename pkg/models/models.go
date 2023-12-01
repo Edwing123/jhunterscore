@@ -55,6 +55,14 @@ type User struct {
 }
 
 type Company struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
+	Id      int    `json:"id"`
+	Name    string `json:"name"`
+	LogoURL string `json:"logo_url"`
+}
+
+type File struct {
+	Id       int    `json:"id"`
+	Name     string `json:"name"`
+	MIMEType string `json:"mime_type"`
+	Path     string `json:"path"`
 }

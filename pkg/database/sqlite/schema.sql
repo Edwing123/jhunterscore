@@ -50,9 +50,29 @@ INSERT INTO "locations"("name") VALUES
 	("Río San Juan"),
 	("Rivas");
 
+CREATE TABLE "files" (
+	"file_id" INTEGER PRIMARY KEY AUTOINCREMENT,
+	-- A description of the file.
+	"name" VARCHAR(100) NOT NULL UNIQUE CHECK(LENGTH("name") > 0),
+	-- A reasonable limit for a MIME type is 64 characters long.
+	-- files like image/jpeg or text/plain,
+	-- etc. 64 characters is more than enough.
+	--
+	-- A more strong option would be
+	-- to have a table that stores all the MIME types
+	-- that are supported by the application.
+	--
+	-- Structure of a MIMEType:
+	-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#structure_of_a_mime_type
+	"mime_type" VARCHAR(64) NOT NULL CHECK(LENGTH("mime_type") > 0),
+	-- A UUID is 36 characters long.
+	"path" CHAR(36) NOT NULL UNIQUE CHECK(LENGTH("path") > 0),
+);
+
 CREATE TABLE "companies" (
 	"company_id" INTEGER PRIMARY KEY AUTOINCREMENT,
-	"name" VARCHAR(100) UNIQUE NOT NULL
+	"name" VARCHAR(100) UNIQUE NOT NULL CHECK(LENGTH("name") > 0),
+	"logo_url" TEXT NOT NULL UNIQUE CHECK(LENGTH("logo_url") > 0),
 );
 
 -- Index for company name.
@@ -61,14 +81,14 @@ CREATE UNIQUE INDEX "idx_companies_name" ON "companies"("name");
 
 CREATE TABLE "offers" (
 	"offer_id" INTEGER PRIMARY KEY AUTOINCREMENT,
-	"title" VARCHAR(100) UNIQUE NOT NULL,
-	"role" VARCHAR(20) NOT NULL,
+	"title" VARCHAR(100) UNIQUE NOT NULL CHECK(LENGTH("title") > 0),
+	"role" VARCHAR(20) NOT NULL CHECK(LENGTH("role") > 0),
 	"company_id" INTEGER NOT NULL REFERENCES "companies"("company_id"),
-	"content" TEXT NOT NULL,
+	"content" TEXT NOT NULL CHECK(LENGTH("content") > 0),
 	-- Either "pasantia" or "trabajo".
 	"contract" VARCHAR(20) NOT NULL CHECK("contract" IN ("pasantia", "trabajo")),
 	"salary" INTEGER NOT NULL CHECK("salary" >= 0),
-	"contact_info" TEXT NOT NULL,
+	"contact_info" TEXT NOT NULL CHECK(LENGTH("contact_info") > 0),
 	"created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	"is_published" TINYINT(1) NOT NULL DEFAULT 0,
 	"user_id" INTEGER NOT NULL REFERENCES "users"("user_id")
@@ -80,9 +100,9 @@ CREATE UNIQUE INDEX "idx_offers_role" ON "offers"("role");
 
 CREATE TABLE "resources" (
 	"resource_id" INTEGER PRIMARY KEY AUTOINCREMENT,
-	"title" VARCHAR(100) UNIQUE NOT NULL,
-	"summary" VARCHAR(150) NOT NULL,
-	"content" TEXT NOT NULL,
+	"title" VARCHAR(100) UNIQUE NOT NULL CHECK(LENGTH("title") > 0),
+	"summary" VARCHAR(150) NOT NULL CHECK(LENGTH("summary") > 0),
+	"content" TEXT NOT NULL CHECK(LENGTH("content") > 0),
 	"created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	"is_published" TINYINT(1) NOT NULL DEFAULT 0,
 	"user_id" INTEGER NOT NULL REFERENCES "users"("user_id")
