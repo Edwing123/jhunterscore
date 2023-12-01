@@ -135,5 +135,6 @@ Response schema:
 []{
   "id": 0,
   "name": "...",
+  "logo_url": "..."
 }
 ```
