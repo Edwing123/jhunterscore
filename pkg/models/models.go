@@ -61,8 +61,10 @@ type Company struct {
 }
 
 type File struct {
-	Id       int    `json:"id"`
-	Name     string `json:"name"`
-	MIMEType string `json:"mime_type"`
-	Path     string `json:"path"`
+	Id        int    `json:"id"`
+	Name      string `json:"name"`
+	MIMEType  string `json:"mime_type"`
+	Path      string `json:"path"`
+	Author    string `json:"author"`
+	CreatedAt string `json:"created_at"`
 }
