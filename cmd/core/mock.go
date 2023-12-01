@@ -1,6 +1,6 @@
 package main
 
-import "edwingarcia.dev/github/jhunterscore/pkg/models"
+import "edwingarcia.dev/github/jhunterscore/pkg/database/models"
 
 var (
 	fakeLogo = "https://images.pexels.com/photos/4936294/pexels-photo-4936294.jpeg?auto=compress&cs=tinysrgb&w=6400&h=420&dpr=1"

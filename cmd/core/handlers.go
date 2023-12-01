@@ -3,7 +3,7 @@ package main
 import (
 	"strconv"
 
-	"edwingarcia.dev/github/jhunterscore/pkg/models"
+	"edwingarcia.dev/github/jhunterscore/pkg/database/models"
 	"github.com/gofiber/fiber/v2"
 )
 
