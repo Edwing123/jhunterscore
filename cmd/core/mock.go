@@ -346,8 +346,10 @@ func getCompactResources() []models.CompactResource {
 
 	for _, resource := range mockResources {
 		compactResources = append(compactResources, models.CompactResource{
-			Id:    resource.Id,
-			Title: resource.Title,
+			Id:        resource.Id,
+			Title:     resource.Title,
+			Author:    resource.Author,
+			CreatedAt: resource.CreatedAt,
 		})
 	}
 	return compactResources
