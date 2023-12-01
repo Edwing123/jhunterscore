@@ -15,7 +15,9 @@ users(<pk:user_id>, username, password, first_name, last_name, created_at, is_ac
 
 locations(<fk:location_id>, name)
 
-companies(<fk:company_id>, name)
+files(<pk:file_id>, name, mime_type, path, created_at, <fk:user_id>)
+
+companies(<fk:company_id>, name, logo_url)
 
 offers(<pk:offer_id>, title, role, content, contract, salary, contact_info, created_at, is_published, <fk:user_id>, <fk:company_id>)
 
