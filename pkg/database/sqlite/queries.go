@@ -56,6 +56,12 @@ const (
 	WHERE "file_id" = ?;
 	`
 
+	UPDATE_FILE_BY_ID = `
+	UPDATE "files"
+	SET "name" = ?
+	WHERE "file_id" = ?;
+	`
+
 	// Company queries.
 	SELECT_COMPANY_BY_ID = `
 	SELECT "company_id", "name", "logo_url"
