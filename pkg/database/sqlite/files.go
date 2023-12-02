@@ -19,7 +19,7 @@ func (f *Files) isNameTakenErr(msg string) bool {
 }
 
 func (f *Files) isPathTakenErr(msg string) bool {
-	return strings.Contains(msg, "first_name")
+	return strings.Contains(msg, "path")
 }
 
 func (f *Files) getFileErr(msg string) (err error) {
