@@ -120,5 +120,25 @@ func (u *Users) Create(user models.User) (models.User, error) {
 }
 
 func (u *Users) Update(user models.User) (models.User, error) {
+	_, err := u.db.Query(
+		UPDATE_USER_BY_ID,
+		user.Username,
+		user.FirstName,
+		user.LastName,
+		user.RoleId,
+		user.IsActive,
+		user.Id,
+	)
+	if err != nil {
+		var sqliteErr sqlite3.Error
+
+		if errors.As(err, &sqliteErr) && isUniqueViolationErr(sqliteErr) {
+			err = u.getUserErr(sqliteErr.Error())
+			return models.User{}, err
+		}
+
+		return models.User{}, internalDatabaseErr(err)
+	}
+
 	return user, nil
 }

@@ -24,6 +24,16 @@ const (
 	VALUES (?, ?, ?, ?, ?);
 	`
 
+	UPDATE_USER_BY_ID = `
+	UPDATE "users"
+	SET	"username" = ?,
+		"first_name" = ?,
+		"last_name" = ?,
+		"role_id" = ?,
+		"is_active" ?
+	WHERE "user_id" = ?;
+	`
+
 	// File queries.
 	SELECT_FILE_BY_ID = `
 	SELECT "file_id", "name", "mime_type", "path", ("u"."first_name" || ' ' || "u"."last_name") AS "author", "created_at"
