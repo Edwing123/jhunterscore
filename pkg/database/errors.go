@@ -18,6 +18,7 @@ var (
 
 	// File errors.
 	ErrFileNameTaken = errors.New("db: file name taken")
+	ErrFilePathTaken = errors.New("db: file path taken")
 
 	// Company errors.
 	ErrCompanyNameTaken = errors.New("db: company name taken")
