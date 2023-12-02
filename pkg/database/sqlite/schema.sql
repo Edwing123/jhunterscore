@@ -79,7 +79,7 @@ CREATE TABLE "files" (
 	-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#structure_of_a_mime_type
 	"mime_type" VARCHAR(64) NOT NULL CHECK(LENGTH("mime_type") > 0),
 	-- A UUID is 36 characters long.
-	"path" CHAR(36) NOT NULL UNIQUE CHECK(LENGTH("path") > 0),
+	"path" CHAR(36) NOT NULL UNIQUE CHECK(LENGTH("path") = 36),
 	"created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	"user_id" INTEGER NOT NULL REFERENCES "users"("user_id")
 );
