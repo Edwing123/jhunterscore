@@ -102,9 +102,8 @@ func (u *Users) Create(user models.User) (models.User, error) {
 	if err != nil {
 		var sqliteErr sqlite3.Error
 
-		if errors.As(sqliteErr, &sqliteErr) && isUniqueViolationErr(sqliteErr) {
-			msg := sqliteErr.Error()
-			err = u.getUserErr(msg)
+		if errors.As(err, &sqliteErr) && isUniqueViolationErr(sqliteErr) {
+			err = u.getUserErr(sqliteErr.Error())
 			return models.User{}, err
 		}
 
