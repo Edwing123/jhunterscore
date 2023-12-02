@@ -1,5 +1,3 @@
-CREATE DATABASE "jobshunters"
-
 CREATE TABLE "roles" (
 	"role_id" INTEGER PRIMARY KEY AUTOINCREMENT,
 	-- Either "cms" or "admin".
