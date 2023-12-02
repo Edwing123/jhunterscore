@@ -1,6 +1,7 @@
 package sqlite
 
 import (
+	"database/sql"
 	_ "embed"
 	"errors"
 
@@ -17,4 +18,18 @@ func isUniqueViolationErr(err sqlite3.Error) bool {
 
 func internalDatabaseErr(err error) error {
 	return errors.Join(database.ErrInternalDatabase, err)
+}
+
+type Database struct {
+	Users *Users
+	Auth  *Auth
+	Files *Files
+}
+
+func New(db *sql.DB) *Database {
+	return &Database{
+		Auth:  &Auth{db},
+		Users: &Users{db},
+		Files: &Files{db},
+	}
 }
