@@ -15,4 +15,10 @@ var (
 	// User errors.
 	ErrUsernameTaken  = errors.New("db: username taken")
 	ErrFirstNameTaken = errors.New("db: first name taken")
+
+	// File errors.
+	ErrFileNameTaken = errors.New("db: file name taken")
+
+	// Company errors.
+	ErrCompanyNameTaken = errors.New("db: company name taken")
 )
