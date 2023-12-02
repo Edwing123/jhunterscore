@@ -5,8 +5,8 @@ CREATE TABLE "roles" (
 );
 
 INSERT INTO "roles" ("name") VALUES
-	("cms"),
-	("admin");
+	("admin"),
+	("cms");
 
 CREATE TABLE "users" (
 	"user_id" INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,6 +18,21 @@ CREATE TABLE "users" (
 	-- UTC time zone timestamp.
 	"created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	"is_active" TINYINT(1) NOT NULL DEFAULT 1
+);
+
+-- Default admin user.
+INSERT INTO "users" (
+	"username",
+	"password",
+	"first_name",
+	"last_name",
+	"role_id"
+) VALUES (
+	"edwing123",
+	"$2a$12$zLR9mjLmDU1WRRw2jjU5xOuOCKW2zEW/YbugayOqdOCRhndg.09Ha",
+	"Edwin",
+	"Garcia",
+	1
 );
 
 -- Index for username.
