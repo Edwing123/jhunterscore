@@ -6,10 +6,9 @@ type AuthRepository interface {
 
 type UsersRepository interface {
 	GetById(id int) (User, error)
+	GetAll() ([]User, error)
 	Create(user User) (User, error)
 	Update(user User) (User, error)
-	UpdateStatus(id int, status bool) error
-	UpdateRole(id int, role string) error
 }
 
 type FilesRepository interface {
