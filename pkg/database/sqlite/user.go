@@ -10,19 +10,19 @@ import (
 	"github.com/mattn/go-sqlite3"
 )
 
-type User struct {
+type Users struct {
 	db *sql.DB
 }
 
-func (u *User) isUsernameTakenErr(msg string) bool {
+func (u *Users) isUsernameTakenErr(msg string) bool {
 	return strings.Contains(msg, "username")
 }
 
-func (u *User) isFirstNameTakenErr(msg string) bool {
+func (u *Users) isFirstNameTakenErr(msg string) bool {
 	return strings.Contains(msg, "first_name")
 }
 
-func (u *User) getUserErr(msg string) (err error) {
+func (u *Users) getUserErr(msg string) (err error) {
 	switch true {
 	case u.isUsernameTakenErr(msg):
 		err = database.ErrUsernameTaken
@@ -33,7 +33,7 @@ func (u *User) getUserErr(msg string) (err error) {
 	return
 }
 
-func (u *User) GetById(id int) (models.User, error) {
+func (u *Users) GetById(id int) (models.User, error) {
 	var user models.User
 
 	row := u.db.QueryRow(SELECT_USER_BY_ID, id)
@@ -58,7 +58,7 @@ func (u *User) GetById(id int) (models.User, error) {
 	return user, nil
 }
 
-func (u *User) GetAll() ([]models.User, error) {
+func (u *Users) GetAll() ([]models.User, error) {
 	var users []models.User
 
 	rows, err := u.db.Query(SELECT_ALL_USERS)
@@ -90,7 +90,7 @@ func (u *User) GetAll() ([]models.User, error) {
 	return users, nil
 }
 
-func (u *User) Create(user models.User) (models.User, error) {
+func (u *Users) Create(user models.User) (models.User, error) {
 	result, err := u.db.Exec(
 		INSERT_USER,
 		user.Username,
@@ -120,6 +120,6 @@ func (u *User) Create(user models.User) (models.User, error) {
 	return user, nil
 }
 
-func (u *User) Update(user models.User) (models.User, error) {
+func (u *Users) Update(user models.User) (models.User, error) {
 	return user, nil
 }
