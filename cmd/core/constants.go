@@ -9,4 +9,5 @@ const (
 	DATA_DIR_SESSION_DIR = "sessions"
 	LOGS_FILE            = "logs.txt"
 	SESSION_FILE         = "sessions.db"
+	DATABASE_FILE        = "jobshunters.db"
 )
