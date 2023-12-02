@@ -30,7 +30,7 @@ const (
 		"first_name" = ?,
 		"last_name" = ?,
 		"role_id" = ?,
-		"is_active" ?
+		"is_active" = ?
 	WHERE "user_id" = ?;
 	`
 
