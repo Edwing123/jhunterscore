@@ -25,7 +25,7 @@ CREATE UNIQUE INDEX "idx_users_username" ON "users"("username");
 
 CREATE TABLE "locations" (
 	"location_id" INTEGER PRIMARY KEY AUTOINCREMENT,
-	"name" VARCHAR(15) UNIQUE NOT NULL,
+	"name" VARCHAR(15) UNIQUE NOT NULL
 );
 
 -- Populate the table with every city in Nicaragua.
@@ -72,7 +72,7 @@ CREATE TABLE "files" (
 CREATE TABLE "companies" (
 	"company_id" INTEGER PRIMARY KEY AUTOINCREMENT,
 	"name" VARCHAR(100) UNIQUE NOT NULL CHECK(LENGTH("name") > 0),
-	"logo_url" TEXT NOT NULL UNIQUE CHECK(LENGTH("logo_url") > 0),
+	"logo_url" TEXT NOT NULL UNIQUE CHECK(LENGTH("logo_url") > 0)
 );
 
 -- Index for company name.
