@@ -8,7 +8,7 @@ import (
 	"github.com/mattn/go-sqlite3"
 )
 
-//go:embed base.db
+//go:embed data/base.db
 var INITIALIZED_DATABASE_DATA []byte
 
 func isUniqueViolationErr(err sqlite3.Error) bool {
