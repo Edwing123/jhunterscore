@@ -6,6 +6,7 @@ import (
 	"errors"
 
 	"edwingarcia.dev/github/jhunterscore/pkg/database"
+	"edwingarcia.dev/github/jhunterscore/pkg/database/models"
 	"github.com/mattn/go-sqlite3"
 )
 
@@ -21,9 +22,9 @@ func internalDatabaseErr(err error) error {
 }
 
 type Database struct {
-	Users *Users
-	Auth  *Auth
-	Files *Files
+	Users models.UsersRepository
+	Auth  models.AuthRepository
+	Files models.FilesRepository
 }
 
 func New(db *sql.DB) *Database {
