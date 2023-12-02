@@ -13,7 +13,7 @@ CREATE TABLE "users" (
 	"username" VARCHAR(40) UNIQUE NOT NULL,
 	"password" VARCHAR(60) NOT NULL,
 	"first_name" VARCHAR(50) UNIQUE NOT NULL,
-	"last_name" VARCHAR(50) UNIQUE NOT NULL,
+	"last_name" VARCHAR(50) NOT NULL,
 	"role_id" INTEGER NOT NULL REFERENCES "roles"("role_id"),
 	-- UTC time zone timestamp.
 	"created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
