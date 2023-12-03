@@ -143,7 +143,7 @@ func (f *Files) Create(file models.File) (models.File, error) {
 }
 
 func (f *Files) Update(file models.File) (models.File, error) {
-	_, err := f.db.Exec(DELETE_FILE_BY_ID, file.Name, file.Id)
+	_, err := f.db.Exec(UPDATE_FILE_BY_ID, file.Name, file.Id)
 	if err != nil {
 		var sqliteErr sqlite3.Error
 
