@@ -1,0 +1,27 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a:is(:focus-visible, :active) {
+    outline: none;
+}
+
+:root {
+	/* Colors */
+
+	/* Sizing */
+
+	/* Fonts */
+	--font-base-size: 62.5%;
+	--font-family-manrope: "Manrope";
+	--font-line-height: 1.5;
+}
+
+:root {
+    font-family: var(--font-family-manrope), sans-serif;
+    line-height: var(--font-line-height);
+}

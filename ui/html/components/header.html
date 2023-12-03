@@ -1,0 +1,25 @@
+{{define "components/header"}}
+	<header class="header">
+		<span class="username">{{.User.Username}}</span>
+
+		<nav class="header_navigation">
+			{{range $link := .Links}}
+				{{ $isActive := eq $link.Path $.Path }}
+
+				{{/* Skip this link if it requires admin but the use is not admin. */}}
+				{{if and $link.IsAdminOnly (ne $.User.Role "admin")}}
+					{{continue}}
+				{{end}}
+
+				<a class="navigation_link {{if $isActive}} navigation_link--active{{end}}" href="{{$link.Path}}">
+					{{template "components/icon" $link.Icon}}
+					<span>{{$link.Name}}</span>
+				</a>
+			{{end}}
+		</nav>
+
+		<form class="header_logout_form" action="/admin/logout">
+			<input class="form__button" type="submit" value="Cerrar sesion" />
+		</form>
+	</header>
+{{end}}

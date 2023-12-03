@@ -1,7 +1,12 @@
 package main
 
 import (
+	"net/http"
+
+	"edwingarcia.dev/github/jhunterscore/pkg/database/models"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/filesystem"
+	"github.com/gofiber/fiber/v2/middleware/helmet"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
@@ -11,6 +16,8 @@ func (core *Core) Setup() *fiber.App {
 		AppName:       "Nameless",
 		ServerHeader:  "Go+FiberV2",
 		CaseSensitive: true,
+		Views:         NewViewsEngine(),
+		ViewsLayout:   "layouts/base",
 	})
 
 	// Define global middlewares.
@@ -19,6 +26,13 @@ func (core *Core) Setup() *fiber.App {
 		logger.New(),
 		core.ManageSession,
 	)
+
+	// Path for static files.
+	app.Use("/static", filesystem.New(filesystem.Config{
+		Root: http.Dir("./ui/static"),
+	}))
+
+	core.SetupAdmin(app)
 
 	api := app.Group("/api/")
 	v1 := api.Group("/v1")
@@ -35,4 +49,28 @@ func (core *Core) Setup() *fiber.App {
 	companies.Get("/", core.HandldeCompanies)
 
 	return app
+}
+
+func (core *Core) SetupAdmin(app *fiber.App) {
+	admin := app.Group("/admin")
+
+	// Protect UI pages by setting several HTTP headers.
+	admin.Use(helmet.New())
+
+	user := models.User{
+		Role:     "admin",
+		Username: "Edwing123",
+	}
+
+	admin.Get("/", func(c *fiber.Ctx) error {
+		return c.Render("pages/admin/home/index", fiber.Map{
+			"Path":  c.Path(),
+			"User":  user,
+			"Links": links,
+		})
+	})
+
+	admin.Get("/auth/login", func(c *fiber.Ctx) error {
+		return c.Render("pages/admin/auth/login", nil, "")
+	})
 }
