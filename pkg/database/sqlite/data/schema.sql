@@ -88,7 +88,7 @@ CREATE TABLE "files" (
 CREATE TABLE "companies" (
 	"company_id" INTEGER PRIMARY KEY AUTOINCREMENT,
 	"name" VARCHAR(100) UNIQUE NOT NULL CHECK(LENGTH("name") > 0),
-	"logo_url" TEXT NOT NULL UNIQUE CHECK(LENGTH("logo_url") > 0)
+	"logo_url" TEXT NOT NULL CHECK(LENGTH("logo_url") > 0)
 );
 
 -- Index for company name.
