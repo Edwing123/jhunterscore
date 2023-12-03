@@ -36,7 +36,7 @@ const (
 
 	// File queries.
 	SELECT_FILE_BY_ID = `
-	SELECT "file_id", "name", "mime_type", "path", ("u"."first_name" || ' ' || "u"."last_name") AS "author", "created_at"
+	SELECT "file_id", "name", "mime_type", "path", "size", ("u"."first_name" || ' ' || "u"."last_name") AS "author", "created_at"
 	FROM "files" AS "f"
 	INNER JOIN "users" AS "u"
 	ON "f"."user_id" = "u"."user_id"
@@ -50,15 +50,15 @@ const (
 	`
 
 	SELECT_ALL_FILES = `
-	SELECT "file_id", "name", "mime_type", "path", ("u"."first_name" || ' ' || "u"."last_name") AS "author", "created_at"
+	SELECT "file_id", "name", "mime_type", "path", "size", ("u"."first_name" || ' ' || "u"."last_name") AS "author", "created_at"
 	FROM "files" AS "f"
 	INNER JOIN "users" AS "u"
 	ON "f"."user_id" = "u"."user_id";
 	`
 
 	INSERT_FILE = `
-	INSERT INTO "files" ("name", "mime_type", "path", "user_id")
-	VALUES (?, ?, ?, ?);
+	INSERT INTO "files" ("name", "mime_type", "path", "size", "user_id")
+	VALUES (?, ?, ?, ?, ?);
 	`
 
 	DELETE_FILE_BY_ID = `

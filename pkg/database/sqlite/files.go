@@ -43,6 +43,7 @@ func (f *Files) GetById(id int) (models.File, error) {
 		&file.Name,
 		&file.MIMEType,
 		&file.Path,
+		&file.Size,
 		&file.Author,
 		&file.CreatedAt,
 	)
@@ -94,6 +95,7 @@ func (f *Files) GetAll() ([]models.File, error) {
 			&file.Name,
 			&file.MIMEType,
 			&file.Path,
+			&file.Size,
 			&file.Author,
 			&file.CreatedAt,
 		)
@@ -116,6 +118,7 @@ func (f *Files) Create(file models.File) (models.File, error) {
 		INSERT_FILE,
 		file.Name,
 		file.MIMEType,
+		file.Size,
 		file.Path,
 		file.UserId,
 	)

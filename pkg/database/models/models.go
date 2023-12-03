@@ -72,6 +72,7 @@ type File struct {
 	Name      string `json:"name"`
 	MIMEType  string `json:"mime_type"`
 	Path      string `json:"path"`
+	Size      int    `json:"size"`
 	Author    string `json:"author"`
 	UserId    int    `json:""`
 	CreatedAt string `json:"created_at"`
