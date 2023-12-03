@@ -83,4 +83,21 @@ const (
 	SELECT "company_id", "name", "logo_url"
 	FROM "companies";
 	`
+
+	INSERT_COMPANY = `
+	INSERT INTO "companies" ("name", "logo_url")
+	VALUES(?, ?);
+	`
+
+	UPDATE_COMPANY_BY_ID = `
+	UPDATE "companies"
+	SET "name" = ?,
+		"logo_url" = ?
+	WHERE "company_id" = ?;
+	`
+
+	DELETE_COMPANY_BY_ID = `
+	DELETE FROM "companies"
+	WHERE "company_id" = ?;
+	`
 )
