@@ -22,15 +22,17 @@ func internalDatabaseErr(err error) error {
 }
 
 type Database struct {
-	Users models.UsersRepository
-	Auth  models.AuthRepository
-	Files models.FilesRepository
+	Users     models.UsersRepository
+	Auth      models.AuthRepository
+	Files     models.FilesRepository
+	Companies models.CompaniesRepository
 }
 
 func New(db *sql.DB) *Database {
 	return &Database{
-		Auth:  &Auth{db},
-		Users: &Users{db},
-		Files: &Files{db},
+		Auth:      &Auth{db},
+		Users:     &Users{db},
+		Files:     &Files{db},
+		Companies: &Companies{db},
 	}
 }
