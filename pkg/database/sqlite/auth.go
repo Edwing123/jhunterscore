@@ -3,9 +3,11 @@ package sqlite
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 
 	"edwingarcia.dev/github/jhunterscore/pkg/database"
 	"edwingarcia.dev/github/jhunterscore/pkg/database/models"
+	"edwingarcia.dev/github/jhunterscore/pkg/validation"
 )
 
 type Auth struct {
@@ -18,6 +20,8 @@ type Auth struct {
 func (a *Auth) Login(username string, password string) (int, error) {
 	var user models.User
 
+	fmt.Println(user, username, password)
+
 	row := a.db.QueryRow(SELECT_USER_BY_FOR_AUTH, username)
 	err := row.Scan(&user.Id, &user.Password)
 
@@ -29,7 +33,9 @@ func (a *Auth) Login(username string, password string) (int, error) {
 		return 0, errors.Join(database.ErrInternalDatabase, err)
 	}
 
-	if user.Password != password {
+	fmt.Println(user, username, password)
+
+	if !validation.VerifyPassword([]byte(user.Password), []byte(password)) {
 		return 0, database.ErrAuth
 	}
 
