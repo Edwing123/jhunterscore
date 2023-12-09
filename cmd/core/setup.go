@@ -20,7 +20,7 @@ func (core *Core) Setup() *fiber.App {
 		ServerHeader:  "Go+FiberV2",
 		CaseSensitive: true,
 		Views:         NewViewsEngine(),
-		ViewsLayout:   "layouts/base",
+		ViewsLayout:   "",
 	})
 
 	// Define global middlewares.
@@ -78,7 +78,7 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 		})
 	})
 
-	admin.Get("/auth/login", func(c *fiber.Ctx) error {
-		return c.Render("pages/admin/auth/login", nil, "")
+	admin.Get("/login", func(c *fiber.Ctx) error {
+		return c.Render("pages/admin/auth/login", nil)
 	})
 }

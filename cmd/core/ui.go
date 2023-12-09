@@ -3,11 +3,9 @@ package main
 import (
 	"io/fs"
 	"log/slog"
-	"net/http"
 
 	"edwingarcia.dev/github/jhunterscore/ui"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/template/html/v2"
 )
 
 func NewViewsEngine() fiber.Views {
@@ -19,11 +17,7 @@ func NewViewsEngine() fiber.Views {
 		slog.Error("Cannot read subdir", "err", err)
 	}
 
-	views := html.NewFileSystem(
-		http.FS(templatesFS),
-		".html",
-	)
-
+	views := ui.NewEngine(templatesFS)
 	return views
 }
 
