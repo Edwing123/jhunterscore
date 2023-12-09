@@ -23,10 +23,10 @@ func NewViewsEngine() fiber.Views {
 }
 
 type ViewData struct {
-	Path    string
-	User    any
-	Links   []Link
-	Errores forms.Errors
+	Path   string
+	User   any
+	Links  []Link
+	Errors forms.Errors
 }
 
 type Link struct {
