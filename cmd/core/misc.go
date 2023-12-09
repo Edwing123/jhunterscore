@@ -26,10 +26,31 @@ func (core *Core) GetUserId(c *fiber.Ctx) int {
 	return id
 }
 
+func (core *Core) GetUserRole(c *fiber.Ctx) string {
+	sess := core.GetSession(c)
+
+	id, _ := sess.Get(USER_ROLE_KEY).(string)
+	return id
+}
+
 func (core *Core) RequireAdmin(c *fiber.Ctx) error {
-	userId := core.GetUserId(c)
-	_ = userId
-	return nil
+	userRole := core.GetUserRole(c)
+
+	if userRole == "admin" {
+		c.Next()
+	}
+
+	return fiber.ErrForbidden
+}
+
+func (core *Core) RequireAuth(c *fiber.Ctx) error {
+	isLoggedIn := core.IsUserLoggedIn(c)
+
+	if !isLoggedIn {
+		c.Redirect("/admin/login", fiber.StatusSeeOther)
+	}
+
+	return c.Next()
 }
 
 func GetConfig() Config {
