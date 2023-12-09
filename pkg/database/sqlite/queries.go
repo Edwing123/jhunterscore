@@ -2,7 +2,7 @@ package sqlite
 
 const (
 	// Auth and User queries.
-	SELECT_USER_BY_FOR_AUTH = `SELECT "id", "password" FROM "users" WHERE "username" = ?;`
+	SELECT_USER_BY_FOR_AUTH = `SELECT "user_id", "password" FROM "users" WHERE "username" = ?;`
 
 	SELECT_ALL_USERS = `
 	SELECT "user_id", "username", "first_name", "last_name", "r"."name" AS "role", "created_at", "is_active"
