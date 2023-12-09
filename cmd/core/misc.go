@@ -37,7 +37,7 @@ func (core *Core) RequireAdmin(c *fiber.Ctx) error {
 	userRole := core.GetUserRole(c)
 
 	if userRole == "admin" {
-		c.Next()
+		return c.Next()
 	}
 
 	return fiber.ErrForbidden
