@@ -1,5 +1,12 @@
 package models
 
+type Database struct {
+	AuthRepository      AuthRepository
+	UsersRepository     UsersRepository
+	FilesRepository     FilesRepository
+	CompaniesRepository CompaniesRepository
+}
+
 type AuthRepository interface {
 	Login(username string, password string) (int, error)
 }

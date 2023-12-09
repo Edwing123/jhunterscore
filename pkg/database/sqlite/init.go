@@ -28,11 +28,11 @@ type Database struct {
 	Companies models.CompaniesRepository
 }
 
-func New(db *sql.DB) *Database {
-	return &Database{
-		Auth:      &Auth{db},
-		Users:     &Users{db},
-		Files:     &Files{db},
-		Companies: &Companies{db},
+func New(db *sql.DB) models.Database {
+	return models.Database{
+		AuthRepository:      &Auth{db},
+		UsersRepository:     &Users{db},
+		FilesRepository:     &Files{db},
+		CompaniesRepository: &Companies{db},
 	}
 }
