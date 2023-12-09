@@ -71,10 +71,10 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 	}
 
 	admin.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("pages/admin/home/index", fiber.Map{
-			"Path":  c.Path(),
-			"User":  user,
-			"Links": links,
+		return c.Render("pages/admin/home/index", ViewData{
+			Path:  c.Path(),
+			User:  user,
+			Links: links,
 		})
 	})
 

@@ -21,6 +21,12 @@ func NewViewsEngine() fiber.Views {
 	return views
 }
 
+type ViewData struct {
+	Path  string
+	User  any
+	Links []Link
+}
+
 type Link struct {
 	Name        string
 	Path        string
