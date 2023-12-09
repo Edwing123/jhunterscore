@@ -1,9 +1,10 @@
 package main
 
 const (
-	SESSION_KEY   = "session"
-	ROLE_KEY      = "role"
-	IS_LOGGED_KEY = "is_logged"
+	SESSION_KEY      = "session"
+	USER_ROLE_KEY    = "user_role"
+	USER_ID_KEY      = "user_id"
+	IS_LOGGED_IN_KEY = "is_logged"
 
 	DATA_DIR_LOGS_DIR    = "logs"
 	DATA_DIR_SESSION_DIR = "sessions"

@@ -13,6 +13,25 @@ func (core *Core) GetSession(c *fiber.Ctx) *session.Session {
 	return c.Locals(SESSION_KEY).(*session.Session)
 }
 
+func (core *Core) IsUserLoggedIn(c *fiber.Ctx) bool {
+	sess := core.GetSession(c)
+	isLoggedIn, ok := sess.Get(IS_LOGGED_IN_KEY).(bool)
+	return ok && isLoggedIn
+}
+
+func (core *Core) GetUserId(c *fiber.Ctx) int {
+	sess := core.GetSession(c)
+
+	id, _ := sess.Get(USER_ID_KEY).(int)
+	return id
+}
+
+func (core *Core) RequireAdmin(c *fiber.Ctx) error {
+	userId := core.GetUserId(c)
+	_ = userId
+	return nil
+}
+
 func GetConfig() Config {
 	configPath := flag.String("config", "", "Path to config file")
 	flag.Parse()
