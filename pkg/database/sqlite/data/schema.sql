@@ -28,10 +28,10 @@ INSERT INTO "users" (
 	"last_name",
 	"role_id"
 ) VALUES (
-	"edwing123",
-	"$2a$12$zLR9mjLmDU1WRRw2jjU5xOuOCKW2zEW/YbugayOqdOCRhndg.09Ha",
-	"Edwin",
-	"Garcia",
+	"master",
+	"$2a$12$DijzIcn3U/KZ9E3AIegSXeRP7rfRhvnw4il5LLcw8TkoZZBedrke2",
+	"Master",
+	"Master",
 	1
 );
 
