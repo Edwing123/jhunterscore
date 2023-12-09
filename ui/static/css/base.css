@@ -12,6 +12,14 @@ a:is(:focus-visible, :active) {
 
 :root {
 	/* Colors */
+	--color-black-1: #303A52;
+	--color-white-1: #FDFDFD;
+	--color-white-2: #F0F0F0;
+	--color-gray-1: #A49EB5;
+	--color-gray-2: #ABABC2;
+	--color-gray-3: #DDDDE2;
+	--color-red-1: #E41749;
+	--color-green-1: #086972;
 
 	/* Sizing */
 
@@ -19,6 +27,25 @@ a:is(:focus-visible, :active) {
 	--font-base-size: 62.5%;
 	--font-family-manrope: "Manrope";
 	--font-line-height: 1.5;
+	--font-size-xsmall: 1.5rem;
+	--font-size-small: 2rem;
+	--font-size-medium: 3rem;
+
+	--font-weight-regular: 400;
+	--font-weight-medium: 500;
+	--font-weight-bold: 700;
+
+
+	/* Theming for all pages */
+	--theme-page-bg-color: var(--color-white-2);
+	--theme-text-white: var(--color-white-1);
+	--theme-text-black: var(--color-black-1);
+	--theme-warning-color: var(--color-red-1);
+	--theme-success-color: var(--color-green-1);
+	--theme-grayed-out-color: var(--color-gray-2);
+
+	--theme-icons-size-small: 25px;
+	--theme-icons-size-medium: 32px;
 }
 
 :root {

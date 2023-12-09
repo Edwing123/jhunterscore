@@ -1,0 +1,7 @@
+:root {
+	/* Theming */
+
+	/* Forms */
+	--theme-form-input-color: var(--color-gray-3);
+	--theme-form-placeholder-color: var(--color-gray-1);
+}
