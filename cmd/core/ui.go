@@ -1,13 +1,26 @@
 package main
 
 import (
+	"io/fs"
+	"log/slog"
+	"net/http"
+
+	"edwingarcia.dev/github/jhunterscore/ui"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
 )
 
 func NewViewsEngine() fiber.Views {
-	views := html.New(
-		"./ui/html",
+	// This is a workaround so that when rendering
+	// views, we don't have to use the `html` prefix
+	// in the view path.
+	templatesFS, err := fs.Sub(ui.TemplateAssets, "html")
+	if err != nil {
+		slog.Error("Cannot read subdir", "err", err)
+	}
+
+	views := html.NewFileSystem(
+		http.FS(templatesFS),
 		".html",
 	)
 
