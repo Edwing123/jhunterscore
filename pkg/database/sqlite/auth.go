@@ -3,7 +3,6 @@ package sqlite
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 
 	"edwingarcia.dev/github/jhunterscore/pkg/database"
 	"edwingarcia.dev/github/jhunterscore/pkg/database/models"
@@ -19,8 +18,6 @@ type Auth struct {
 // Otherwise, it returns an authentication error.
 func (a *Auth) Login(username string, password string) (int, error) {
 	var user models.User
-
-	fmt.Println(user, username, password)
 
 	row := a.db.QueryRow(SELECT_USER_BY_FOR_AUTH, username)
 	err := row.Scan(&user.Id, &user.Password)
