@@ -47,10 +47,17 @@ func (core *Core) RequireAuth(c *fiber.Ctx) error {
 	isLoggedIn := core.IsUserLoggedIn(c)
 
 	if !isLoggedIn {
-		c.Redirect("/admin/login", fiber.StatusSeeOther)
+		return c.Redirect("/admin/login", fiber.StatusSeeOther)
 	}
 
 	return c.Next()
+}
+
+func (core *Core) GetCommonViewData(c *fiber.Ctx) ViewData {
+	return ViewData{
+		Path:  c.Path(),
+		Links: links,
+	}
 }
 
 func GetConfig() Config {
