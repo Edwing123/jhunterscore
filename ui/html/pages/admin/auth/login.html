@@ -7,6 +7,10 @@
 
 {{define "page"}}
 <section>
+	{{with .Errors}}
+		<div>{{.Get "generic"}}</div>
+	{{end}}
+
 	<h1>JobsHunters Admin</h1>
 
 	<form action="/admin/auth/login" method="POST">
@@ -47,7 +51,7 @@
 		</div>
 
 		<div class="auth-form__group">
-			<button class="auth-form__button" type="reset">Iniciar sesion</button>
+			<button class="auth-form__button" type="submit">Iniciar sesion</button>
 		</div>
 	</form>
 </section>
