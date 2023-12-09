@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+
+	"edwingarcia.dev/github/jhunterscore/pkg/database/sqlite"
 )
 
 func main() {
@@ -26,7 +28,7 @@ func main() {
 	}
 
 	db := NewSQLiteDB(DATABASE_FULL_PATH)
-	_ = db
+	database := sqlite.New(db)
 
 	logFile, err := os.OpenFile(DATA_DIR_LOGS_PATH, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
@@ -37,8 +39,9 @@ func main() {
 	sessionStore := NewSessionStore(DATA_DIR_SESSION_PATH)
 
 	core := Core{
-		Logger: logger,
-		Store:  sessionStore,
+		Logger:   logger,
+		Store:    sessionStore,
+		Database: database,
 	}
 
 	app := core.Setup()
