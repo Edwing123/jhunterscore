@@ -33,8 +33,6 @@ func (a *Auth) Login(username string, password string) (int, error) {
 		return 0, errors.Join(database.ErrInternalDatabase, err)
 	}
 
-	fmt.Println(user, username, password)
-
 	if !validation.VerifyPassword([]byte(user.Password), []byte(password)) {
 		return 0, database.ErrAuth
 	}
