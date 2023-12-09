@@ -13,10 +13,10 @@ const (
 
 	SELECT_USER_BY_ID = `
 	SELECT "user_id", "username", "first_name", "last_name", "r"."name" AS "role", "created_at", "is_active"
-	FROM "users" AS "u'
+	FROM "users" AS "u"
 	INNER JOIN "roles" AS "r"
 	ON "u"."role_id" = "r"."role_id"
-	WHERE "id" = ?;
+	WHERE "user_id" = ?;
 	`
 
 	INSERT_USER = `
