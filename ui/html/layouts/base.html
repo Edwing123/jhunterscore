@@ -21,7 +21,7 @@
 		<title>Admin | {{block "title" .}}{{end}}</title>
 	</head>
 	<body>
-		{{if and (ne .Path "/admin/login") (ne .Path "/admin/auth/login")}}
+		{{if (ne .Path "/admin/login")}}
 			{{template "components/header" .}}
 		{{end}}
 
