@@ -4,6 +4,7 @@ import (
 	"io/fs"
 	"log/slog"
 
+	"edwingarcia.dev/github/jhunterscore/pkg/forms"
 	"edwingarcia.dev/github/jhunterscore/ui"
 	"github.com/gofiber/fiber/v2"
 )
@@ -22,9 +23,10 @@ func NewViewsEngine() fiber.Views {
 }
 
 type ViewData struct {
-	Path  string
-	User  any
-	Links []Link
+	Path    string
+	User    any
+	Links   []Link
+	Errores forms.Errors
 }
 
 type Link struct {
