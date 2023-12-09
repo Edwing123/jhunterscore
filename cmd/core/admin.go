@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 
 	"edwingarcia.dev/github/jhunterscore/pkg/database"
 	"edwingarcia.dev/github/jhunterscore/pkg/forms"
@@ -33,17 +32,14 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 
 	admin.Get("/", func(c *fiber.Ctx) error {
 		userId := core.GetUserId(c)
-		fmt.Println(userId)
-
 		user, err := core.Database.UsersRepository.GetById(userId)
-		ViewData := core.GetCommonViewData(c)
-		ViewData.User = user
-
-		fmt.Println(err)
 
 		if err != nil {
 			return fiber.ErrInternalServerError
 		}
+
+		ViewData := core.GetCommonViewData(c)
+		ViewData.User = user
 
 		return c.Render("pages/admin/home/index", ViewData)
 	})
@@ -52,28 +48,68 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 	offers := admin.Group("/offers")
 
 	offers.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("pages/admin/offers/index", nil)
+		userId := core.GetUserId(c)
+		user, err := core.Database.UsersRepository.GetById(userId)
+
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
+		ViewData := core.GetCommonViewData(c)
+		ViewData.User = user
+
+		return c.Render("pages/admin/offers/index", ViewData)
 	})
 
 	// Resources pages.
 	resources := admin.Group("/resources")
 
 	resources.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("pages/admin/resources/index", nil)
+		userId := core.GetUserId(c)
+		user, err := core.Database.UsersRepository.GetById(userId)
+
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
+		ViewData := core.GetCommonViewData(c)
+		ViewData.User = user
+
+		return c.Render("pages/admin/resources/index", ViewData)
 	})
 
 	// Files pages.
 	files := admin.Group("/files")
 
 	files.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("pages/admin/files/index", nil)
+		userId := core.GetUserId(c)
+		user, err := core.Database.UsersRepository.GetById(userId)
+
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
+		ViewData := core.GetCommonViewData(c)
+		ViewData.User = user
+
+		return c.Render("pages/admin/files/index", ViewData)
 	})
 
 	// Companies pages.
 	companies := admin.Group("/companies", core.RequireAdmin)
 
 	companies.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("pages/admin/companies/index", nil)
+		userId := core.GetUserId(c)
+		user, err := core.Database.UsersRepository.GetById(userId)
+
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
+		ViewData := core.GetCommonViewData(c)
+		ViewData.User = user
+
+		return c.Render("pages/admin/companies/index", ViewData)
 	})
 }
 
