@@ -5,6 +5,7 @@ import (
 	"flag"
 	"os"
 
+	"edwingarcia.dev/github/jhunterscore/pkg/forms"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
 )
@@ -54,10 +55,29 @@ func (core *Core) RequireAuth(c *fiber.Ctx) error {
 }
 
 func (core *Core) GetCommonViewData(c *fiber.Ctx) ViewData {
+	formErrors := core.GetErrors(c)
+
 	return ViewData{
-		Path:  c.Path(),
-		Links: links,
+		Errors: formErrors,
+		Path:   c.Path(),
+		Links:  links,
 	}
+}
+
+func (core *Core) GetErrors(c *fiber.Ctx) forms.Errors {
+	sess := core.GetSession(c)
+	errors, _ := sess.Get(ERRORS_KEY).(forms.Errors)
+	return errors
+}
+
+func (core *Core) SetErrors(errors forms.Errors, c *fiber.Ctx) {
+	sess := core.GetSession(c)
+	sess.Set(ERRORS_KEY, errors)
+}
+
+func (core *Core) ClearErrors(c *fiber.Ctx) {
+	sess := core.GetSession(c)
+	sess.Set(ERRORS_KEY, forms.Errors{})
 }
 
 func GetConfig() Config {
@@ -94,6 +114,11 @@ func InitDataDir(path string) {
 	}
 
 	err = os.MkdirAll(path+"/"+DATA_DIR_SESSION_DIR, 0755)
+	if err != nil {
+		panic(err)
+	}
+
+	err = os.MkdirAll(path+"/"+DATA_DIR_FILES_DIR, 0755)
 	if err != nil {
 		panic(err)
 	}

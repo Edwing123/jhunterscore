@@ -1,13 +1,20 @@
 package main
 
 import (
+	"encoding/gob"
 	"errors"
 	"fmt"
 	"io/fs"
 	"os"
+	"path"
 
 	"edwingarcia.dev/github/jhunterscore/pkg/database/sqlite"
+	"edwingarcia.dev/github/jhunterscore/pkg/forms"
 )
+
+func init() {
+	gob.Register(forms.Errors{})
+}
 
 func main() {
 	config := GetConfig()
@@ -42,6 +49,7 @@ func main() {
 		Logger:   logger,
 		Store:    sessionStore,
 		Database: database,
+		FilesDir: path.Join(config.DataDir, DATA_DIR_FILES_DIR),
 	}
 
 	app := core.Setup()
