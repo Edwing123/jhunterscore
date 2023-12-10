@@ -87,6 +87,11 @@ button, a {
 	cursor: pointer;
 }
 
+:is(button, a, input, textarea):is(:focus-visible) {
+	outline: solid var(--color-blue-1);
+	outline-offset: 3px;
+}
+
 .form-message {
 	position: absolute;
 	top: var(--sizing-xsmall);

@@ -20,11 +20,6 @@ label, input, textarea, button {
 	font-weight: var(--font-weight-bold);
 }
 
-button:is(:focus-visible) {
-	outline: solid var(--color-blue-1);
-	outline-offset: 3px;
-}
-
 input, textarea {
 	height: var(--theme-form-input-height);
 	padding: 1.2rem;
