@@ -20,7 +20,7 @@ label, input, textarea, button {
 	font-weight: var(--font-weight-bold);
 }
 
-input, textarea {
+input, textarea, select {
 	height: var(--theme-form-input-height);
 	padding: 1.2rem;
 	border-radius: 0.4rem;
@@ -34,6 +34,6 @@ label {
 }
 
 /* All the placeholders have the same color. */
-input::placeholder {
+:is(input,textarea)::placeholder {
 	color: var(--theme-form-placeholder-color);
 }

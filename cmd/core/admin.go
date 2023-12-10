@@ -61,11 +61,49 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 			return fiber.ErrInternalServerError
 		}
 
+		offers, err := core.Database.OffersRepository.GetAll()
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
 		ViewData := core.GetCommonViewData(c)
 		ViewData.User = user
+		ViewData.Offers = offers
+
+		core.ClearErrors(c)
 
 		return c.Render("pages/admin/offers/index", ViewData)
 	})
+
+	offers.Get("/new", func(c *fiber.Ctx) error {
+		userId := core.GetUserId(c)
+		user, err := core.Database.UsersRepository.GetById(userId)
+
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
+		companies, err := core.Database.CompaniesRepository.GetAll()
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
+		locations, err := core.Database.LocationsRepository.GetAll()
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
+		ViewData := core.GetCommonViewData(c)
+		ViewData.User = user
+		ViewData.Companies = companies
+		ViewData.Locations = locations
+		core.ClearErrors(c)
+
+		return c.Render("pages/admin/offers/new", ViewData)
+	})
+
+	offers.Post("/__new", core.AdminHandleOffersNew)
+	offers.Post("/__delete", core.AdminHandleOffersDelete)
 
 	// Resources pages.
 	resources := admin.Group("/resources")
@@ -563,4 +601,128 @@ func (core *Core) AdminHandleCompaniesEdit(c *fiber.Ctx) error {
 
 	errorsBag.Add("success", "Empresa guardada.")
 	return redirectIndex()
+}
+
+func (core *Core) AdminHandleOffersNew(c *fiber.Ctx) error {
+	formsErrors := forms.Errors{}
+	userId := core.GetUserId(c)
+
+	redirect := func() error {
+		core.SetErrors(formsErrors, c)
+		return c.Redirect("/admin/offers/new", fiber.StatusSeeOther)
+	}
+
+	title := c.FormValue("title")
+	if forms.IsEmpty(title) {
+		formsErrors.Add("generic", "El campo titulo no puede estar vacio.")
+		return redirect()
+	}
+
+	role := c.FormValue("role")
+	if forms.IsEmpty(role) {
+		formsErrors.Add("generic", "El campo rol no puede estar vacio.")
+		return redirect()
+	}
+
+	companyIdStr := c.FormValue("company_id")
+	if forms.IsEmpty(companyIdStr) {
+		formsErrors.Add("generic", "Tienes que seleccionar una empresa.")
+		return redirect()
+	}
+
+	contract := c.FormValue("contract")
+	if forms.IsEmpty(contract) {
+		formsErrors.Add("generic", "Tienes que seleccionar un tipo de contrato.")
+		return redirect()
+	}
+
+	locationIdStr := c.FormValue("location_id")
+	if forms.IsEmpty(locationIdStr) {
+		formsErrors.Add("generic", "Tienes que seleccionar una ubicacion.")
+		return redirect()
+	}
+
+	salaryStr := c.FormValue("salary")
+	if forms.IsEmpty(salaryStr) {
+		formsErrors.Add("generic", "El campo salario no puede estar vacio.")
+		return redirect()
+	}
+
+	contactInfo := c.FormValue("contact_info")
+	if forms.IsEmpty(contactInfo) {
+		formsErrors.Add("generic", "El campo informacion de contacto no puede estar vacio.")
+		return redirect()
+	}
+
+	content := c.FormValue("content")
+	if forms.IsEmpty(content) {
+		formsErrors.Add("generic", "El campo contenido no puede estar vacio.")
+		return redirect()
+	}
+
+	companyId, _ := strconv.Atoi(companyIdStr)
+	locationId, _ := strconv.Atoi(locationIdStr)
+	salary, _ := strconv.Atoi(salaryStr)
+
+	_, err := core.Database.OffersRepository.Create(models.Offer{
+		Title:       title,
+		Role:        role,
+		CompanyId:   companyId,
+		LocationId:  locationId,
+		Salary:      float64(salary),
+		Content:     content,
+		Contract:    contract,
+		ContactInfo: contactInfo,
+		UserId:      userId,
+	})
+	if err != nil {
+		if errors.Is(err, database.ErrOfferTitleTaken) {
+			formsErrors.Add("generic", "Ya existe una ofeta con este titulo.")
+			core.SetErrors(formsErrors, c)
+			return redirect()
+		}
+
+		return fiber.ErrInternalServerError
+	}
+
+	formsErrors.Add("success", "Oferta creada con exito.")
+	core.SetErrors(formsErrors, c)
+	return c.Redirect("/admin/offers", fiber.StatusSeeOther)
+}
+
+func (core *Core) AdminHandleOffersDelete(c *fiber.Ctx) error {
+	errorsBag := forms.Errors{}
+	currentUserId := core.GetUserId(c)
+	currentUserRole := core.GetUserRole(c)
+
+	redirect := func() error {
+		core.SetErrors(errorsBag, c)
+		return c.Redirect("/admin/offers", fiber.StatusSeeOther)
+	}
+
+	offerIdStr := c.FormValue("offer_id")
+	offerId, err := strconv.Atoi(offerIdStr)
+	if err != nil {
+		errorsBag.Add("generic", "Hay un problema con el id de la oferta.")
+		return redirect()
+	}
+
+	offerUserId, err := core.Database.OffersRepository.GetUserIdByOfferId(offerId)
+	if err != nil {
+		errorsBag.Add("generic", "No se puede eliminar el archivo.")
+		return redirect()
+	}
+
+	if currentUserId != offerUserId && currentUserRole != "admin" {
+		errorsBag.Add("generic", "No puedes eliminar la oferta porque no eres el creador.")
+		return redirect()
+	}
+
+	err = core.Database.OffersRepository.Delete(offerId)
+	if err != nil {
+		return fiber.ErrInternalServerError
+	}
+
+	errorsBag.Add("success", "Oferta eliminada.")
+	return redirect()
 }

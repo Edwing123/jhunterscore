@@ -1,0 +1,155 @@
+{{template "layouts/base" .}}
+
+{{define "title"}}Crear oferta{{end}}
+
+{{define "resources"}}
+<link rel="stylesheet" href="/static/css/forms.css" />
+<link rel="stylesheet" href="/static/css/pages/admin-common.css" />
+{{end}}
+
+
+{{define "page"}}
+<section class="admin-page">
+	{{with .Errors}}
+		<div class="form-message form-message--error">{{.Get "generic"}}</div>
+	{{end}}
+
+	<div class="admin-page__header">
+		<h1 class="admin-page__title">Crear oferta</h1>
+	</div>
+
+	<form class="page-form" action="/admin/offers/__new" method="post">
+
+		<div class="page-form__options">
+			<button type="submit">Registrar</button>
+			<a href="/admin/offers">Cancelar</a>
+		</div>
+
+		<div class="page-form__inputs">
+			<div class="form__group">
+				<label for="title">Titulo de la publicacion</label>
+				<div>
+					<input
+						type="text"
+						name="title"
+						id="title"
+						placeholder="Titulo de la publicacion"
+						autocapitalize="off"
+						autocomplete="off"
+						required
+					/>
+				</div>
+			</div>
+
+			<div class="form__group">
+				<label for="role">Rol (puesto de trabajo)</label>
+				<div>
+					<input
+						type="text"
+						name="role"
+						id="role"
+						placeholder="Rol (puesto de trabajo)"
+						autocapitalize="off"
+						autocomplete="off"
+						required
+					/>
+				</div>
+			</div>
+
+			<div class="form__group">
+				<label for="company_id">Empresa</label>
+				<div>
+					<select
+						name="company_id"
+						id="company_id"
+						required
+					>
+						<option value="none" selected disabled>Elije una opcion</option>
+						{{range $company := .Companies}}
+							<option value="{{$company.Id}}">{{$company.Name}}</option>
+						{{end}}
+					</select>
+				</div>
+			</div>
+
+			<div class="form__group">
+				<label for="contract">Tipo de contrato</label>
+				<div>
+					<select
+						name="contract"
+						id="contract"
+						required
+					>
+						<option selected disabled>Elije una opcion</option>
+						<option value="trabajo">trabajo</option>
+						<option value="pasantia">pasantia</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form__group">
+				<label for="location_id">Ubicacion</label>
+				<div>
+					<select
+						name="location_id"
+						id="location_id"
+						required
+					>
+						<option selected disabled>Elije una opcion</option>
+						{{range $location := .Locations}}
+							<option value="{{$location.Id}}">{{$location.Name}}</option>
+						{{end}}
+					</select>
+				</div>
+			</div>
+
+			<div class="form__group">
+				<label for="salary">Salario (en dolares)</label>
+				<div>
+					<input
+						type="number"
+						inputmode="numeric"
+						name="salary"
+						id="salary"
+						placeholder="Salario (en dolares)"
+						autocapitalize="off"
+						autocomplete="off"
+						required
+					/>
+				</div>
+			</div>
+
+			<div class="form__group">
+				<label for="contact_info">Correo de contacto</label>
+				<div>
+					<input
+						type="email"
+						inputmode="email"
+						name="contact_info"
+						id="contact_info"
+						placeholder="Correo de contacto"
+						autocapitalize="off"
+						autocomplete="off"
+						required
+					/>
+				</div>
+			</div>
+
+			<div class="form__group">
+				<label for="content">Contenido de la oferta (escribe en Markdown)</label>
+				<div>
+					<textarea
+						name="content"
+						id="content"
+						placeholder="Escribe aca..."
+						autocapitalize="off"
+						autocomplete="off"
+						required
+					></textarea>
+				</div>
+			</div>
+		</div>
+	</form>
+</section>
+{{end}}
+

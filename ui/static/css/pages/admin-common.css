@@ -1,5 +1,5 @@
 .admin-page {
-	padding: 0 var(--theme-page-padding-x);
+	padding: 0 var(--theme-page-padding-x) var(--theme-page-padding-x);
 	color: var(--theme-text-black);
 }
 
@@ -87,4 +87,16 @@
 
 .row-options__delete svg {
 	fill: var(--theme-error-color);
+}
+
+/* Form styling */
+.form__group:has(textarea) {
+	min-width: 100%;
+}
+
+.form__group textarea {
+	min-width: 100%;
+	resize: none;
+	max-width: 100%;
+	min-height: 50rem;
 }
