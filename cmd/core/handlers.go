@@ -1,8 +1,11 @@
 package main
 
 import (
+	"errors"
+	"fmt"
 	"strconv"
 
+	"edwingarcia.dev/github/jhunterscore/pkg/database"
 	"edwingarcia.dev/github/jhunterscore/pkg/database/models"
 	"github.com/gofiber/fiber/v2"
 )
@@ -10,37 +13,50 @@ import (
 func (core *Core) HandldeOffers(c *fiber.Ctx) error {
 	isCompact := c.QueryBool("c", false)
 
+	offers, err := core.Database.OffersRepository.GetAll()
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"ok":    false,
+			"error": err,
+		})
+	}
+
 	if isCompact {
 		return c.JSON(fiber.Map{
 			"ok":   true,
-			"data": getCompactOffers(mockOffers),
+			"data": getCompactOffers(offers),
 		})
 	}
 
 	return c.JSON(fiber.Map{
 		"ok":   true,
-		"data": mockOffers,
+		"data": offers,
 	})
 }
 
 func (core *Core) HandldeOfferById(c *fiber.Ctx) error {
 	// Get offer id from params.
-	id := c.Params("id")
-
-	// Find offer by id.
-	var offer models.Offer
-
-	for _, o := range mockOffers {
-		if strconv.Itoa(o.Id) == id {
-			offer = o
-			break
-		}
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"ok":    false,
+			"error": err,
+		})
 	}
 
-	if offer.Id == 0 {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+	// Find offer by id.
+	offer, err := core.Database.OffersRepository.GetById(id)
+	if err != nil {
+		if errors.Is(err, database.ErrNoRows) {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"ok":    false,
+				"error": fmt.Sprintf("Oferta con id %d no existe", id),
+			})
+		}
+
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"ok":    false,
-			"error": "Oferta no encontrada",
+			"error": err,
 		})
 	}
 
