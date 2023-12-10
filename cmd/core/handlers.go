@@ -106,8 +106,16 @@ func (core *Core) HandldeResourceById(c *fiber.Ctx) error {
 }
 
 func (core *Core) HandldeCompanies(c *fiber.Ctx) error {
+	companies, err := core.Database.CompaniesRepository.GetAll()
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": err,
+			"ok":    false,
+		})
+	}
+
 	return c.JSON(fiber.Map{
 		"ok":   true,
-		"data": mockCompanies,
+		"data": companies,
 	})
 }

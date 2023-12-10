@@ -170,11 +170,69 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 			return fiber.ErrInternalServerError
 		}
 
+		companies, err := core.Database.CompaniesRepository.GetAll()
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
 		ViewData := core.GetCommonViewData(c)
 		ViewData.User = user
+		ViewData.Companies = companies
+
+		core.ClearErrors(c)
 
 		return c.Render("pages/admin/companies/index", ViewData)
 	})
+
+	companies.Get("/new", func(c *fiber.Ctx) error {
+		userId := core.GetUserId(c)
+		user, err := core.Database.UsersRepository.GetById(userId)
+
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
+		ViewData := core.GetCommonViewData(c)
+		ViewData.User = user
+		core.ClearErrors(c)
+
+		return c.Render("pages/admin/companies/new", ViewData)
+	})
+
+	companies.Get("/edit/:id<int>", func(c *fiber.Ctx) error {
+		userId := core.GetUserId(c)
+		user, err := core.Database.UsersRepository.GetById(userId)
+
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
+		errorsBag := forms.Errors{}
+
+		companyId, _ := c.ParamsInt("id")
+
+		company, err := core.Database.CompaniesRepository.GetById(companyId)
+		if err != nil {
+			if errors.Is(err, database.ErrNoRows) {
+				errorsBag.Add("generic", fmt.Sprintf("La empresa con id %d no existe.", companyId))
+				core.SetErrors(errorsBag, c)
+				return c.Redirect("/admin/companies", fiber.StatusSeeOther)
+			}
+
+			return fiber.ErrInternalServerError
+		}
+
+		ViewData := core.GetCommonViewData(c)
+		ViewData.User = user
+		ViewData.Company = company
+		core.ClearErrors(c)
+
+		return c.Render("pages/admin/companies/edit", ViewData)
+	})
+
+	companies.Post("/__new", core.AdminHandleCompaniesNew)
+	companies.Post("/__delete", core.AdminHandleCompaniesDelete)
+	companies.Post("/__edit", core.AdminHandleCompaniesEdit)
 }
 
 func (core *Core) AdminHandleLogin(c *fiber.Ctx) error {
@@ -315,7 +373,6 @@ func (core *Core) AdminHandleFilesDelete(c *fiber.Ctx) error {
 	}
 
 	file, err := core.Database.FilesRepository.GetById(fileId)
-	fmt.Println(err)
 	if err != nil {
 		if errors.Is(err, database.ErrNoRows) {
 			errorsBag.Add("generic", "No se puede eliminar el archivo.")
@@ -326,13 +383,11 @@ func (core *Core) AdminHandleFilesDelete(c *fiber.Ctx) error {
 	}
 
 	err = os.Remove(path.Join(core.FilesDir, file.Path))
-	fmt.Println(err)
 	if err != nil {
 		return fiber.ErrInternalServerError
 	}
 
 	err = core.Database.FilesRepository.Delete(fileId)
-	fmt.Println(err)
 	if err != nil {
 		return fiber.ErrInternalServerError
 	}
@@ -394,5 +449,118 @@ func (core *Core) AdminHandleFilesEdit(c *fiber.Ctx) error {
 	}
 
 	errorsBag.Add("success", "Archivo editado.")
+	return redirectIndex()
+}
+
+func (core *Core) AdminHandleCompaniesNew(c *fiber.Ctx) error {
+	formsErrors := forms.Errors{}
+
+	redirect := func() error {
+		core.SetErrors(formsErrors, c)
+		return c.Redirect("/admin/companies/new", fiber.StatusSeeOther)
+	}
+
+	companyName := c.FormValue("name")
+	if forms.IsEmpty(companyName) {
+		formsErrors.Add("generic", "El campo de nombre no puede estar vacio.")
+		return redirect()
+	}
+
+	logoURL := c.FormValue("logo_url")
+	if forms.IsEmpty(logoURL) {
+		formsErrors.Add("generic", "El campo de logo URL no puede estar vacio.")
+		return redirect()
+	}
+
+	_, err := core.Database.CompaniesRepository.Create(models.Company{
+		Name:    companyName,
+		LogoURL: logoURL,
+	})
+	if err != nil {
+		if errors.Is(err, database.ErrCompanyNameTaken) {
+			formsErrors.Add("generic", "Ya existe una empresa con este nombre.")
+			core.SetErrors(formsErrors, c)
+			return redirect()
+		}
+
+		return fiber.ErrInternalServerError
+	}
+
+	formsErrors.Add("success", "Empresa registrada con exito.")
+	core.SetErrors(formsErrors, c)
+	return c.Redirect("/admin/companies", fiber.StatusSeeOther)
+}
+
+func (core *Core) AdminHandleCompaniesDelete(c *fiber.Ctx) error {
+	errorsBag := forms.Errors{}
+
+	redirect := func() error {
+		core.SetErrors(errorsBag, c)
+		return c.Redirect("/admin/companies", fiber.StatusSeeOther)
+	}
+
+	companyIdStr := c.FormValue("company_id")
+	companyId, err := strconv.Atoi(companyIdStr)
+	if err != nil {
+		errorsBag.Add("generic", "Hay un problema con el id de la empresa.")
+		return redirect()
+	}
+
+	err = core.Database.CompaniesRepository.Delete(companyId)
+	if err != nil {
+		return fiber.ErrInternalServerError
+	}
+
+	errorsBag.Add("success", "Empresa eliminada.")
+	return redirect()
+}
+
+func (core *Core) AdminHandleCompaniesEdit(c *fiber.Ctx) error {
+	errorsBag := forms.Errors{}
+
+	redirectIndex := func() error {
+		core.SetErrors(errorsBag, c)
+		return c.Redirect("/admin/companies", fiber.StatusSeeOther)
+	}
+
+	redirectEdit := func(id int) error {
+		core.SetErrors(errorsBag, c)
+		return c.Redirect(fmt.Sprintf("/admin/companies/edit/%d", id), fiber.StatusSeeOther)
+	}
+
+	companyIdStr := c.FormValue("company_id")
+	companyId, err := strconv.Atoi(companyIdStr)
+	if err != nil {
+		errorsBag.Add("generic", "Hay un problema con el id de la empresa.")
+		return redirectIndex()
+	}
+
+	companyName := c.FormValue("name")
+	if forms.IsEmpty(companyName) {
+		errorsBag.Add("generic", "El campo nombre no puede estar vacio.")
+		return redirectEdit(companyId)
+	}
+
+	logoURL := c.FormValue("logo_url")
+	if forms.IsEmpty(logoURL) {
+		errorsBag.Add("generic", "El campo logo URL no puede estar vacio.")
+		return redirectEdit(companyId)
+	}
+
+	_, err = core.Database.CompaniesRepository.Update(models.Company{
+		Id:      companyId,
+		Name:    companyName,
+		LogoURL: logoURL,
+	})
+	if err != nil {
+		if errors.Is(err, database.ErrCompanyNameTaken) {
+			errorsBag.Add("generic", "Ya existe una empresa con este nombre.")
+			return redirectEdit(companyId)
+		}
+
+		return fiber.ErrInternalServerError
+	}
+
+	errorsBag.Add("success", "Empresa guardada.")
 	return redirectIndex()
 }

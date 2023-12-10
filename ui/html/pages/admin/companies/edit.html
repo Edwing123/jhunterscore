@@ -19,6 +19,7 @@
 	</div>
 
 	<form class="page-form" action="/admin/companies/__edit" method="post">
+		<input type="hidden" name="company_id" value="{{.Company.Id}}" />
 
 		<div class="page-form__options">
 			<button type="submit">Guardar</button>
