@@ -38,6 +38,10 @@ type ViewData struct {
 	Company   any
 	Companies []models.Company
 
+	// Offers related data.
+	Offer  any
+	Offers []models.Offer
+
 	// Navigation links.
 	Links []Link
 
