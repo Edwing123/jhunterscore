@@ -62,7 +62,7 @@ type Link struct {
 var links = []Link{
 	{Name: "Inicio", Icon: "home", Path: "/admin"},
 	{Name: "Ofertas", Icon: "newspaper", Path: "/admin/offers"},
-	{Name: "Recursos", Icon: "bagback", Path: "/admin/resources"},
+	// {Name: "Recursos", Icon: "bagback", Path: "/admin/resources"},
 	{Name: "Archivos", Icon: "files", Path: "/admin/files"},
 	{Name: "Empresas", Icon: "buildings", Path: "/admin/companies", IsAdminOnly: true},
 }
