@@ -38,6 +38,10 @@ func (core *Core) Setup() *fiber.App {
 		Root: http.FS(assetsFS),
 	}))
 
+	app.Use("/files", filesystem.New(filesystem.Config{
+		Root: http.Dir(core.FilesDir),
+	}))
+
 	core.SetupAdmin(app)
 
 	api := app.Group("/api/")
