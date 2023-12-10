@@ -103,6 +103,7 @@ CREATE TABLE "offers" (
 	"content" TEXT NOT NULL CHECK(LENGTH("content") > 0),
 	-- Either "pasantia" or "trabajo".
 	"contract" VARCHAR(20) NOT NULL CHECK("contract" IN ("pasantia", "trabajo")),
+	"location_id" INTEGER NOT NULL REFERENCES "locations"("location_id"),
 	"salary" INTEGER NOT NULL CHECK("salary" >= 0),
 	"contact_info" TEXT NOT NULL CHECK(LENGTH("contact_info") > 0),
 	"created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
