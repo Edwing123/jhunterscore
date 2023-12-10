@@ -2,8 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
-	"log"
 	"path"
 
 	"edwingarcia.dev/github/jhunterscore/pkg/database"
@@ -96,7 +94,6 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 
 		files, err := core.Database.FilesRepository.GetAll()
 		if err != nil {
-			log.Println(err)
 			return fiber.ErrInternalServerError
 		}
 
@@ -231,8 +228,6 @@ func (core *Core) AdminHandleFilesNew(c *fiber.Ctx) error {
 		return c.Redirect("/admin/files/new")
 	}
 
-	fmt.Println(len(filePath))
-
 	file, err := core.Database.FilesRepository.Create(models.File{
 		Name:     filename,
 		Path:     filePath,
@@ -241,7 +236,6 @@ func (core *Core) AdminHandleFilesNew(c *fiber.Ctx) error {
 		UserId:   userId,
 	})
 	if err != nil {
-		fmt.Println(err)
 		if errors.Is(err, database.ErrFileNameTaken) {
 			formsErrors.Add("generic", "Ya existe un archivo con este nombre.")
 			core.SetErrors(formsErrors, c)
@@ -250,8 +244,6 @@ func (core *Core) AdminHandleFilesNew(c *fiber.Ctx) error {
 
 		return fiber.ErrInternalServerError
 	}
-
-	fmt.Println(file)
 
 	formsErrors.Add("generic", "Archivo creado con exito.")
 	core.SetErrors(formsErrors, c)

@@ -3,7 +3,6 @@ package sqlite
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"strings"
 
 	"edwingarcia.dev/github/jhunterscore/pkg/database"
@@ -131,7 +130,6 @@ func (u *Users) Update(user models.User) (models.User, error) {
 		user.Id,
 	)
 	if err != nil {
-		fmt.Println(err)
 		var sqliteErr sqlite3.Error
 
 		if errors.As(err, &sqliteErr) && isUniqueViolationErr(sqliteErr) {
