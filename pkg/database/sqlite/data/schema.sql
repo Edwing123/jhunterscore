@@ -27,12 +27,27 @@ INSERT INTO "users" (
 	"first_name",
 	"last_name",
 	"role_id"
-) VALUES (
+) VALUES
+(
 	"master",
-	"$2a$12$DijzIcn3U/KZ9E3AIegSXeRP7rfRhvnw4il5LLcw8TkoZZBedrke2",
+	"$2a$12$DijzIcn3U/KZ9E3AIegSXeRP7rfRhvnw4il5LLcw8TkoZZBedrke2", -- Banana123
 	"Master",
 	"Master",
 	1
+),
+(
+	"Edwing123",
+	"$2a$12$XlEKs5GvSbsb9H5QkbuR5uC1efnKUetM.RopCIYtuZmVeBGvyhpfW", -- RuthForever
+	"Edwin",
+	"Garcia",
+	1
+),
+(
+	"Enmanuel",
+	"$2a$12$tPd69A20LrRn3n1dBxTaBO9VRJejSUV98mj4imaK/h3NTpBTkWr7i", -- Enmanuel123
+	"Enmanuel",
+	"Olivas",
+	2
 );
 
 -- Index for username.
