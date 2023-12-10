@@ -11,6 +11,7 @@ type Core struct {
 	Logger   *slog.Logger
 	Store    *session.Store
 	Database models.Database
+	FilesDir string
 }
 
 type Config struct {
