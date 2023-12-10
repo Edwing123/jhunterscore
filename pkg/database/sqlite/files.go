@@ -100,10 +100,6 @@ func (f *Files) GetAll() ([]models.File, error) {
 			&file.CreatedAt,
 		)
 		if err != nil {
-			if errors.Is(err, sql.ErrNoRows) {
-				return nil, database.ErrNoRows
-			}
-
 			return nil, internalDatabaseErr(err)
 		}
 
