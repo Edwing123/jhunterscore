@@ -7,6 +7,7 @@ type Database struct {
 	CompaniesRepository CompaniesRepository
 	OffersRepository    OffersRepository
 	ResourcesRepository ResourcesRepository
+	LocationsRepository LocationsRepository
 }
 
 type AuthRepository interface {
@@ -53,4 +54,8 @@ type ResourcesRepository interface {
 	Create(resource Resource) (Resource, error)
 	Update(resource Resource) (Resource, error)
 	Delete(id int) error
+}
+
+type LocationsRepository interface {
+	GetAll() ([]Location, error)
 }

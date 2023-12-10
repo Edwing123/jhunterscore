@@ -77,3 +77,8 @@ type File struct {
 	UserId    int    `json:""`
 	CreatedAt string `json:"created_at"`
 }
+
+type Location struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+}
