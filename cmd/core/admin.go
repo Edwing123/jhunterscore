@@ -155,7 +155,7 @@ func (core *Core) AdminHandleLogin(c *fiber.Ctx) error {
 	sess.Set(USER_ROLE_KEY, user.Role)
 	sess.Set(IS_LOGGED_IN_KEY, true)
 
-	return c.Redirect("/admin/", fiber.StatusSeeOther)
+	return c.Redirect("/admin", fiber.StatusSeeOther)
 }
 
 func (core *Core) AdminHandleLogout(c *fiber.Ctx) error {
