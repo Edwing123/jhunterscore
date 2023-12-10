@@ -58,7 +58,7 @@ func (f *Files) GetById(id int) (models.File, error) {
 	return file, nil
 }
 
-func (f *Files) GetUserIdById(id int) (int, error) {
+func (f *Files) GetFileUserIdByFileId(id int) (int, error) {
 	var userId int
 
 	row := f.db.QueryRow(SELECT_FILE_USER_ID_BY_ID, id)

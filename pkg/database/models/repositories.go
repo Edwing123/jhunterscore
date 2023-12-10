@@ -20,7 +20,7 @@ type UsersRepository interface {
 
 type FilesRepository interface {
 	GetById(id int) (File, error)
-	GetUserIdById(id int) (int, error)
+	GetFileUserIdByFileId(id int) (int, error)
 	GetAll() ([]File, error)
 	Create(file File) (File, error)
 	Update(file File) (File, error)
