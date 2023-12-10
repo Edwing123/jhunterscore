@@ -193,7 +193,7 @@ var (
 	}
 )
 
-func getCompactOffers() []models.CompactOffer {
+func getCompactOffers(offers []models.Offer) []models.CompactOffer {
 	var compactOffers []models.CompactOffer
 
 	for _, offer := range mockOffers {
@@ -208,10 +208,11 @@ func getCompactOffers() []models.CompactOffer {
 			CompanyLogoURL: offer.CompanyLogoURL,
 		})
 	}
+
 	return compactOffers
 }
 
-func getCompactResources() []models.CompactResource {
+func getCompactResources(resources []models.Resource) []models.CompactResource {
 	var compactResources []models.CompactResource
 
 	for _, resource := range mockResources {

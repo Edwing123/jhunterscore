@@ -13,7 +13,7 @@ func (core *Core) HandldeOffers(c *fiber.Ctx) error {
 	if isCompact {
 		c.JSON(fiber.Map{
 			"ok":   true,
-			"data": getCompactOffers(),
+			"data": getCompactOffers(mockOffers),
 		})
 		return nil
 	}
@@ -62,7 +62,7 @@ func (core *Core) HandldeResources(c *fiber.Ctx) error {
 	if isCompact {
 		c.JSON(fiber.Map{
 			"ok":   true,
-			"data": getCompactResources(),
+			"data": getCompactResources(mockResources),
 		})
 		return nil
 	}
