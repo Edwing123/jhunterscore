@@ -22,4 +22,7 @@ var (
 
 	// Company errors.
 	ErrCompanyNameTaken = errors.New("db: company name taken")
+
+	// Offer errors.
+	ErrOfferTitleTaken = errors.New("db: offer title taken")
 )

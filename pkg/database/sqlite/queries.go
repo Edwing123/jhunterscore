@@ -100,4 +100,71 @@ const (
 	DELETE FROM "companies"
 	WHERE "company_id" = ?;
 	`
+
+	// Offer queries.
+	SELECT_OFFER_BY_ID = `
+	SELECT "offer_id", "title", "role", "c"."name", "c"."logo_url", "content", "contract", "l"."name", "salary", "contact_info", "o"."created_at", "is_published", ("u"."first_name" || ' ' || "u"."last_name") AS "author"
+	FROM "offers" AS "o"
+
+	INNER JOIN "companies" AS "c"
+	ON "o"."company_id" = "c"."company_id"
+
+	INNER JOIN "locations" AS "l"
+	ON "o"."location_id" = "l"."location_id"
+
+	INNER JOIN "users" AS "u"
+	ON "o"."user_id" = "u"."user_id"
+
+	WHERE "offer_id" = ?;
+	`
+
+	SELECT_ALL_OFFERS = `
+	SELECT "offer_id", "title", "role", "c"."name", "c"."logo_url", "content", "contract", "l"."name", "salary", "contact_info", "o"."created_at", "is_published", ("u"."first_name" || ' ' || "u"."last_name") AS "author"
+	FROM "offers" AS "o"
+
+	INNER JOIN "companies" AS "c"
+	ON "o"."company_id" = "c"."company_id"
+
+	INNER JOIN "locations" AS "l"
+	ON "o"."location_id" = "l"."location_id"
+
+	INNER JOIN "users" AS "u"
+	ON "o"."user_id" = "u"."user_id";
+	`
+
+	SELECT_OFFER_USER_ID_BY_ID = `
+	SELECT "user_id"
+	FROM "offers"
+	WHERE "offer_id" = ?;
+	`
+
+	INSERT_OFFER = `
+	INSERT INTO "offers" (
+		"title",
+		"role",
+		"company_id",
+		"content",
+		"contract",
+		"location_id",
+		"salary",
+		"contact_info",
+		"user_id"
+	) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+	`
+
+	DELETE_OFFER_BY_ID = `
+	DELETE FROM "offers"
+	WHERE "offer_id" = ?;
+	`
+
+	// Resource queries.
+	SELECT_RESOURCE_BY_ID = ``
+
+	SELECT_ALL_RESOURCES = ``
+
+	SELECT_RESOURCE_USER_ID_BY_ID = ``
+
+	INSERT_RESOURCE = ``
+
+	DELETE_RESOURCE_BY_ID = ``
 )
