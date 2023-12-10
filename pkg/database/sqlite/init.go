@@ -34,5 +34,6 @@ func New(db *sql.DB) models.Database {
 		UsersRepository:     &Users{db},
 		FilesRepository:     &Files{db},
 		CompaniesRepository: &Companies{db},
+		OffersRepository:    &Offers{db},
 	}
 }
