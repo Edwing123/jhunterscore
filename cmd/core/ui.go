@@ -4,6 +4,7 @@ import (
 	"io/fs"
 	"log/slog"
 
+	"edwingarcia.dev/github/jhunterscore/pkg/database/models"
 	"edwingarcia.dev/github/jhunterscore/pkg/forms"
 	"edwingarcia.dev/github/jhunterscore/ui"
 	"github.com/gofiber/fiber/v2"
@@ -23,9 +24,20 @@ func NewViewsEngine() fiber.Views {
 }
 
 type ViewData struct {
-	Path   string
-	User   any
-	Links  []Link
+	// The path of the page.
+	Path string
+
+	// The user data.
+	User any
+
+	// File related data.
+	File  any
+	Files []models.File
+
+	// Navigation links.
+	Links []Link
+
+	// View errors.
 	Errors forms.Errors
 }
 

@@ -1,0 +1,14 @@
+.admin-page {
+	padding: 0 var(--theme-page-padding-x);
+	color: var(--theme-text-black);
+}
+
+.admin-page-title {
+	font-size: var(--font-size-medium);
+	margin-top: var(--sizing-medium);
+}
+
+.info-message {
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-regular);
+}

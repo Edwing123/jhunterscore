@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"log"
 
 	"edwingarcia.dev/github/jhunterscore/pkg/database"
 	"edwingarcia.dev/github/jhunterscore/pkg/forms"
@@ -89,8 +90,15 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 			return fiber.ErrInternalServerError
 		}
 
+		files, err := core.Database.FilesRepository.GetAll()
+		if err != nil {
+			log.Println(err)
+			return fiber.ErrInternalServerError
+		}
+
 		ViewData := core.GetCommonViewData(c)
 		ViewData.User = user
+		ViewData.Files = files
 
 		return c.Render("pages/admin/files/index", ViewData)
 	})

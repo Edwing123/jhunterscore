@@ -2,9 +2,64 @@
 
 {{define "title"}}Archivos{{end}}
 
+{{define "resources"}}
+	<link rel="stylesheet" href="/static/css/pages/admin-common.css" />
+{{end}}
+
 {{define "page"}}
-<section>
-	<h1>Archivos</h1>
+<section class="admin-page">
+	<div>
+		<h1 class="admin-page-title">Archivos</h1>
+		<div class="page-options">
+
+		</div>
+	</div>
+
+	{{/* If there is not files, show message. */}}
+	{{if eq (len .Files) 0}}
+		<p class="info-message">No hay archivos creados aun.</p>
+	{{else}}
+		<table>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Nombre</th>
+					<th>Tipo</th>
+					<th>Tamaño</th>
+					<th>Creado por</th>
+					<th>Fecha de creacion</th>
+					<th>Opciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{range $index, $file := .Files}}
+					<tr>
+						<td>{{$index}}</td>
+						<td>
+							<a href="/files/{{$file.Path}}">{{$file.Name}}</a>
+						</td>
+						<td>{{$file.MIMEType}}</td>
+						<td>{{$file.Size}}</td>
+						<td>{{$file.Author}}</td>
+						<td>{{$file.CreatedAt}}</td>
+						<td>
+							<div class="row-options">
+								<a href="/admin/files/edit/{{$file.Id}}" title="Editar" aria-label="Editar">
+									{{template "components/icon" "pencil"}}
+								</a>
+								<form action="/admin/files/delete" method="post">
+									<input type="text" name="file_id" hidden value="{{$file.Id}}" />
+									<button type="submit" title="Eliminar" aria-label="Eliminar">
+										{{template "components/icon" "trash"}}
+									</button>
+								</form>
+							</div>
+						</td>
+					</tr>
+				{{end}}
+			</tbody>
+		</table>
+	{{end}}
 </section>
 {{end}}
 
