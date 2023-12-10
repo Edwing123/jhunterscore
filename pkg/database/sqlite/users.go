@@ -59,7 +59,7 @@ func (u *Users) GetById(id int) (models.User, error) {
 }
 
 func (u *Users) GetAll() ([]models.User, error) {
-	var users []models.User
+	users := []models.User{}
 
 	rows, err := u.db.Query(SELECT_ALL_USERS)
 	if err != nil {

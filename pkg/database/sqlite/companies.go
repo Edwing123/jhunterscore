@@ -44,7 +44,7 @@ func (c *Companies) GetById(id int) (models.Company, error) {
 }
 
 func (c *Companies) GetAll() ([]models.Company, error) {
-	var companies []models.Company
+	companies := []models.Company{}
 
 	rows, err := c.db.Query(SELECT_ALL_COMPANIES)
 	if err != nil {

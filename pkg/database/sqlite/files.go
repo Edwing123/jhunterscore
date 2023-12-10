@@ -78,7 +78,7 @@ func (f *Files) GetFileUserIdByFileId(id int) (int, error) {
 }
 
 func (f *Files) GetAll() ([]models.File, error) {
-	var files []models.File
+	files := []models.File{}
 
 	rows, err := f.db.Query(SELECT_ALL_FILES)
 	if err != nil {
