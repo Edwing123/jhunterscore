@@ -228,7 +228,7 @@ func (core *Core) AdminHandleFilesNew(c *fiber.Ctx) error {
 		return c.Redirect("/admin/files/new")
 	}
 
-	file, err := core.Database.FilesRepository.Create(models.File{
+	_, err = core.Database.FilesRepository.Create(models.File{
 		Name:     filename,
 		Path:     filePath,
 		Size:     int(fileheader.Size),
