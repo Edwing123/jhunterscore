@@ -42,6 +42,9 @@ type ViewData struct {
 	Offer  any
 	Offers []models.Offer
 
+	// Locations related data
+	Locations []models.Location
+
 	// Navigation links.
 	Links []Link
 
