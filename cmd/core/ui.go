@@ -34,6 +34,10 @@ type ViewData struct {
 	File  any
 	Files []models.File
 
+	// Companies related data.
+	Company   any
+	Companies []models.Company
+
 	// Navigation links.
 	Links []Link
 
