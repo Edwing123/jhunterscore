@@ -9,6 +9,7 @@
 
 		{{/* Common resources. */}}
 		<link rel="stylesheet" href="/static/css/base.css" />
+		<link rel="stylesheet" href="/static/css/header.css" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -21,7 +22,7 @@
 		<title>Admin | {{block "title" .}}{{end}}</title>
 	</head>
 	<body>
-		{{if (ne .Path "/admin/login")}}
+		{{if and (ne .Path "/admin/login") (ne .Path "/admin/auth/login")}}
 			{{template "components/header" .}}
 		{{end}}
 

@@ -12,6 +12,7 @@ a:is(:focus-visible, :active) {
 
 :root {
 	/* Colors */
+	--color-blue-1: #482ff7;
 	--color-black-1: #303A52;
 	--color-white-1: #FDFDFD;
 	--color-white-2: #F0F0F0;
@@ -22,6 +23,10 @@ a:is(:focus-visible, :active) {
 	--color-green-1: #086972;
 
 	/* Sizing */
+	--sizing-xsmall: 1rem;
+	--sizing-small: 1.5rem;
+	--sizing-medium: 6rem;
+	--sizing-large: 11rem;
 
 	/* Fonts */
 	--font-base-size: 62.5%;
@@ -40,9 +45,11 @@ a:is(:focus-visible, :active) {
 	--theme-page-bg-color: var(--color-white-2);
 	--theme-text-white: var(--color-white-1);
 	--theme-text-black: var(--color-black-1);
-	--theme-warning-color: var(--color-red-1);
+	--theme-error-color: var(--color-red-1);
 	--theme-success-color: var(--color-green-1);
 	--theme-grayed-out-color: var(--color-gray-2);
+
+	--theme-page-padding-x: var(--sizing-medium);
 
 	--theme-icons-size-small: 25px;
 	--theme-icons-size-medium: 32px;
@@ -51,4 +58,25 @@ a:is(:focus-visible, :active) {
 :root {
     font-family: var(--font-family-manrope), sans-serif;
     line-height: var(--font-line-height);
+	font-size: var(--font-base-size);
+	background-color: var(--theme-page-bg-color);
+}
+
+/* By default all SVG icons are 32x32. */
+svg {
+	width: var(--theme-icons-size-medium);
+	height: var(--theme-icons-size-medium);
+	fill: var(--color-white-1);
+}
+
+/* Links, input, textarea, and labels inherit colors and size */
+a, input, textarea, label, button {
+	font-size: inherit;
+	color: currentColor;
+	background-color: transparent;
+	font-weight: inherit;
+}
+
+button, a {
+	cursor: pointer;
 }

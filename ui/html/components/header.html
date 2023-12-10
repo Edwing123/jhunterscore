@@ -2,7 +2,7 @@
 	<header class="header">
 		<span class="username">{{.User.Username}}</span>
 
-		<nav class="header_navigation">
+		<nav class="header__navigation">
 			{{range $link := .Links}}
 				{{ $isActive := eq $link.Path $.Path }}
 
@@ -11,15 +11,19 @@
 					{{continue}}
 				{{end}}
 
-				<a class="navigation_link {{if $isActive}} navigation_link--active{{end}}" href="{{$link.Path}}">
+				<a class="navigation__link {{if $isActive}} navigation__link--active{{end}}" href="{{$link.Path}}">
 					{{template "components/icon" $link.Icon}}
 					<span>{{$link.Name}}</span>
 				</a>
 			{{end}}
 		</nav>
 
-		<form method="post" class="header_logout_form" action="/admin/auth/logout">
-			<input class="form__button" type="submit" value="Cerrar sesion" />
+		<form method="post" class="header__logout_form" action="/admin/auth/logout">
+			<button class="form__button" type="submit">
+				Cerrar sesion
+					{{template "components/icon" "logout"}}
+			</button>
+
 		</form>
 	</header>
 {{end}}

@@ -8,12 +8,12 @@
 {{define "page"}}
 <section>
 	{{with .Errors}}
-		<div>{{.Get "generic"}}</div>
+		<div class="form-message form-message--error">{{.Get "generic"}}</div>
 	{{end}}
 
-	<h1>JobsHunters Admin</h1>
+	<h1 class="form-title">JobsHunters Admin</h1>
 
-	<form action="/admin/auth/login" method="POST">
+	<form class="login-form" action="/admin/auth/login" method="POST">
 		<div class="auth-form__group">
 			<label for="username">Nombre de usuario</label>
 			<div>

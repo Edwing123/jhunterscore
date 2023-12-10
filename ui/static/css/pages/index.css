@@ -1,3 +1,8 @@
 h1 {
+	margin-top: var(--sizing-large);
+
 	text-align: center;
+	font-size: var(--font-size-medium);
+	color: var(--theme-text-black);
+	font-weight: var(--font-weight-bold);
 }

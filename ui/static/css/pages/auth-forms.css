@@ -1,6 +1,68 @@
 /*
-
-The following styles apply to pages that
-represent forms for authentication purposes.
-
+	The following styles apply to pages that
+	represent forms for authentication purposes.
 */
+
+.form-title {
+	text-align: center;
+	font-size: var(--font-size-medium);
+	font-weight: var(--font-weight-bold);
+	color: var(--theme-text-black);
+	margin-top: var(--sizing-large);
+	margin-bottom: var(--sizing-medium);
+}
+
+.login-form {
+	max-width: 40rem;
+	width: 80%;
+	margin: 0 auto;
+	padding: 2rem;
+	border-radius: 0.4rem;
+
+	--bg-color: var(--color-white-1);
+	background-color: var(--bg-color);
+}
+
+/* All groups have a bottom margin, except the last one. */
+.auth-form__group:not(:last-child) {
+	margin-bottom: 2rem;
+}
+
+.auth-form__group label {
+	margin-bottom: var(--sizing-xsmall);
+}
+
+/* The div that contains the icon + input. */
+.auth-form__group div {
+	display: flex;
+}
+
+.auth-form__group span {
+	min-width: var(--theme-form-input-height);
+	min-height: var(--theme-form-input-height);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 0.4rem;
+
+	background-color: var(--color-black-1);
+}
+
+/* The input occupies all the width. */
+.auth-form__group input {
+	width: 100%;
+}
+
+.auth-form__button {
+	height: var(--theme-form-input-height);
+	padding: 1.2rem 2rem;
+	border-radius: 0.4rem;
+
+	text-align: center;
+	color: var(--color-white-1);
+	background-color: var(--color-black-1);
+}
+
+.auth-form__group:has(.auth-form__button) {
+	text-align: center;
+}

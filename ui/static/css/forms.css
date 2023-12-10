@@ -1,7 +1,63 @@
+/*
+	Styling shared by all forms.
+*/
+
 :root {
 	/* Theming */
 
 	/* Forms */
-	--theme-form-input-color: var(--color-gray-3);
+	--theme-form-input-height: 5rem;
+	--theme-form-input-color: var(--color-black-1);
 	--theme-form-placeholder-color: var(--color-gray-1);
+	--theme-form-input-bg-color: var(--color-gray-3);
+	--theme-input-font-size: var(--font-size-xsmall);
+}
+
+.form-message {
+	position: absolute;
+	top: var(--sizing-xsmall);
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: max-content;
+	border-radius: 4px;
+	padding: 1rem 2rem;
+
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-bold);
+	color: var(--theme-text-white);
+}
+
+.form-message--error {
+	background-color: var(--theme-error-color);
+}
+
+.form-message--success {
+	background-color: var(--theme-success-color);
+}
+
+label, input, textarea, button {
+	display: inline-block;
+	border: none;
+	outline: none;
+	font-size: var(--theme-input-font-size);
+	color: var(--theme-form-input-color);
+	font-weight: var(--font-weight-bold);
+}
+
+button:is(:focus-visible) {
+	outline: solid var(--color-blue-1);
+	outline-offset: 3px;
+}
+
+input, textarea {
+	height: var(--theme-form-input-height);
+	padding: 1.2rem;
+	border-radius: 0.4rem;
+
+	background-color: var(--theme-form-input-bg-color);
+}
+
+input::placeholder {
+	color: var(--theme-form-placeholder-color);
 }

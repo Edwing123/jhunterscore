@@ -1,0 +1,55 @@
+/*
+	Styling for the website header.
+*/
+
+.header {
+	display: flex;
+	align-items: center;
+	padding: var(--sizing-small) var(--theme-page-padding-x);
+
+	--header-bg-color: var(--color-black-1);
+	background-color: var(--header-bg-color);
+	color: var(--theme-text-white);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-bold);
+}
+
+.username {
+	margin-right: 8rem;
+}
+
+.header__navigation {
+	display: flex;
+	align-items: center;
+	gap: 3.5rem;
+}
+
+.navigation__link {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+}
+
+.navigation__link--active  {
+	color: var(--theme-grayed-out-color);
+}
+
+.navigation__link--active svg {
+	fill: var(--theme-grayed-out-color);
+}
+
+.header__logout_form {
+	margin-left: auto;
+}
+
+.form__button {
+	border: none;
+	display: flex;
+	gap: 0 1.5rem;
+	align-items: center;
+	padding: 1.2rem 2rem;
+	height: 5rem;
+	border-radius: 0.4rem;
+
+	background-color: var(--color-red-1);
+}
