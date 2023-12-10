@@ -2,7 +2,10 @@ package main
 
 import (
 	"errors"
+	"fmt"
+	"os"
 	"path"
+	"strconv"
 
 	"edwingarcia.dev/github/jhunterscore/pkg/database"
 	"edwingarcia.dev/github/jhunterscore/pkg/database/models"
@@ -122,6 +125,7 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 	})
 
 	files.Post("/__new", core.AdminHandleFilesNew)
+	files.Post("/__delete", core.AdminHandleFilesDelete)
 
 	// Companies pages.
 	companies := admin.Group("/companies", core.RequireAdmin)
@@ -248,4 +252,59 @@ func (core *Core) AdminHandleFilesNew(c *fiber.Ctx) error {
 	formsErrors.Add("generic", "Archivo creado con exito.")
 	core.SetErrors(formsErrors, c)
 	return c.Redirect("/admin/files", fiber.StatusSeeOther)
+}
+
+func (core *Core) AdminHandleFilesDelete(c *fiber.Ctx) error {
+	errorsBag := forms.Errors{}
+	currentUserId := core.GetUserId(c)
+	currentUserRole := core.GetUserRole(c)
+
+	redirect := func() error {
+		core.SetErrors(errorsBag, c)
+		return c.Redirect("/admin/files")
+	}
+
+	fileIdStr := c.FormValue("file_id")
+	fileId, err := strconv.Atoi(fileIdStr)
+	if err != nil {
+		errorsBag.Add("generic", "Hay un problema con el id del archivo.")
+		return redirect()
+	}
+
+	fileUserId, err := core.Database.FilesRepository.GetFileUserIdByFileId(fileId)
+	if err != nil {
+		errorsBag.Add("generic", "No se puede eliminar el archivo.")
+		return redirect()
+	}
+
+	if currentUserId != fileUserId && currentUserRole != "admin" {
+		errorsBag.Add("generic", "No puedes eliminar el archivo porque no eres el creador.")
+		return redirect()
+	}
+
+	file, err := core.Database.FilesRepository.GetById(fileId)
+	fmt.Println(err)
+	if err != nil {
+		if errors.Is(err, database.ErrNoRows) {
+			errorsBag.Add("generic", "No se puede eliminar el archivo.")
+			return redirect()
+		}
+
+		return fiber.ErrInternalServerError
+	}
+
+	err = os.Remove(path.Join(core.FilesDir, file.Path))
+	fmt.Println(err)
+	if err != nil {
+		return fiber.ErrInternalServerError
+	}
+
+	err = core.Database.FilesRepository.Delete(fileId)
+	fmt.Println(err)
+	if err != nil {
+		return fiber.ErrInternalServerError
+	}
+
+	errorsBag.Add("success", "Archivo eliminado.")
+	return redirect()
 }

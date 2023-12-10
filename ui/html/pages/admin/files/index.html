@@ -9,7 +9,13 @@
 {{define "page"}}
 <section class="admin-page">
 	{{with .Errors}}
-		<div class="form-message form-message--success">{{.Get "generic"}}</div>
+		{{with .Get "success"}}
+			<div class="form-message form-message--success">{{.}}</div>
+		{{end}}
+
+		{{with .Get "generic"}}
+		<div class="form-message form-message--error">{{.}}</div>
+		{{end}}
 	{{end}}
 
 	<div class="admin-page__header">
