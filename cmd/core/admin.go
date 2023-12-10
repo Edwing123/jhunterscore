@@ -2,12 +2,16 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
+	"path"
 
 	"edwingarcia.dev/github/jhunterscore/pkg/database"
+	"edwingarcia.dev/github/jhunterscore/pkg/database/models"
 	"edwingarcia.dev/github/jhunterscore/pkg/forms"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/helmet"
+	"github.com/google/uuid"
 )
 
 func (core *Core) SetupAdmin(app *fiber.App) {
@@ -103,6 +107,23 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 		return c.Render("pages/admin/files/index", ViewData)
 	})
 
+	files.Get("/new", func(c *fiber.Ctx) error {
+		userId := core.GetUserId(c)
+		user, err := core.Database.UsersRepository.GetById(userId)
+
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
+		ViewData := core.GetCommonViewData(c)
+		ViewData.User = user
+		core.ClearErrors(c)
+
+		return c.Render("pages/admin/files/new", ViewData)
+	})
+
+	files.Post("/__new", core.AdminHandleFilesNew)
+
 	// Companies pages.
 	companies := admin.Group("/companies", core.RequireAdmin)
 
@@ -172,4 +193,63 @@ func (core *Core) AdminHandleLogout(c *fiber.Ctx) error {
 	sess.Set(USER_ROLE_KEY, "")
 	sess.Set(IS_LOGGED_IN_KEY, false)
 	return c.Redirect("/admin/login")
+}
+
+func (core *Core) AdminHandleFilesNew(c *fiber.Ctx) error {
+	userId := core.GetUserId(c)
+
+	formsErrors := forms.Errors{}
+
+	filename := c.FormValue("filename")
+	if forms.IsEmpty(filename) {
+		formsErrors.Add("generic", "El campo de nombre no puede estar vacio.")
+		core.SetErrors(formsErrors, c)
+		return c.Redirect("/admin/files/new")
+	}
+
+	fileheader, err := c.FormFile("file")
+	if err != nil {
+		formsErrors.Add("generic", "Hay un problema con el archivo, intente de nuevo.")
+		core.SetErrors(formsErrors, c)
+		return c.Redirect("/admin/files/new")
+	}
+
+	if fileheader.Size > MAX_FILE_SIZE {
+		formsErrors.Add("generic", "El archivo tiene que pesar <= 5MB.")
+		core.SetErrors(formsErrors, c)
+		return c.Redirect("/admin/files/new")
+	}
+
+	filePath := uuid.NewString()
+
+	err = c.SaveFile(fileheader, path.Join(core.FilesDir, filePath))
+	if err != nil {
+		formsErrors.Add("generic", "Hay un problema con el archivo, intente de nuevo.")
+		core.SetErrors(formsErrors, c)
+		return c.Redirect("/admin/files/new")
+	}
+
+	fmt.Println(len(filePath))
+
+	file, err := core.Database.FilesRepository.Create(models.File{
+		Name:     filename,
+		Path:     filePath,
+		Size:     int(fileheader.Size),
+		MIMEType: fileheader.Header.Get("Content-Type"),
+		UserId:   userId,
+	})
+	if err != nil {
+		fmt.Println(err)
+		if errors.Is(err, database.ErrFileNameTaken) {
+			formsErrors.Add("generic", "Ya existe un archivo con este nombre.")
+			core.SetErrors(formsErrors, c)
+			return c.Redirect("/admin/files/new")
+		}
+
+		return fiber.ErrInternalServerError
+	}
+
+	fmt.Println(file)
+
+	return c.Redirect("/admin/files", fiber.StatusSeeOther)
 }
