@@ -167,4 +167,10 @@ const (
 	INSERT_RESOURCE = ``
 
 	DELETE_RESOURCE_BY_ID = ``
+
+	// Location queries.
+	SELECT_ALL_LOCATIONS = `
+	SELECT "location_id", "name"
+	FROM "locations";
+	`
 )
