@@ -114,8 +114,8 @@ func (f *Files) Create(file models.File) (models.File, error) {
 		INSERT_FILE,
 		file.Name,
 		file.MIMEType,
-		file.Size,
 		file.Path,
+		file.Size,
 		file.UserId,
 	)
 	if err != nil {
