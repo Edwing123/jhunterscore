@@ -2,8 +2,66 @@
 
 {{define "title"}}Empresas{{end}}
 
+{{define "resources"}}
+	<link rel="stylesheet" href="/static/css/pages/admin-common.css" />
+{{end}}
+
 {{define "page"}}
-<section>
-	<h1>Empresas</h1>
+<section class="admin-page">
+	{{with .Errors}}
+		{{with .Get "success"}}
+			<div class="form-message form-message--success">{{.}}</div>
+		{{end}}
+
+		{{with .Get "generic"}}
+			<div class="form-message form-message--error">{{.}}</div>
+		{{end}}
+	{{end}}
+
+	<div class="admin-page__header">
+		<h1 class="admin-page__title">Empresas</h1>
+		<div class="admin-page__options">
+			<a href="/admin/companies/new">Registrar empresa</a>
+		</div>
+	</div>
+
+	{{/* If there is not companies, show message. */}}
+	{{if eq (len .Companies) 0}}
+		<p class="info-message">No hay empresas registradas aun.</p>
+	{{else}}
+		<table class="page-table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Nombre</th>
+					<th>Logo URL</th>
+					<th>Opciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{range $index, $company := .Companies}}
+					<tr>
+						<td>{{$index}}</td>
+						<td>{{$company.Name}}</td>
+						<td>{{$company.LogoURL}}</td>
+						<td>
+							<div class="row-options">
+								<a class="row-options__edit" href="/admin/companies/edit/{{$company.Id}}" title="Editar" aria-label="Editar">
+									{{template "components/icon" "pencil"}}
+								</a>
+								<form action="/admin/companies/__delete" method="post">
+									<input type="hidden" name="company_id" hidden value="{{$company.Id}}" />
+									<button class="row-options__delete" type="submit" title="Eliminar" aria-label="Eliminar">
+										{{template "components/icon" "trash"}}
+									</button>
+								</form>
+							</div>
+						</td>
+					</tr>
+				{{end}}
+			</tbody>
+		</table>
+	{{end}}
 </section>
 {{end}}
+

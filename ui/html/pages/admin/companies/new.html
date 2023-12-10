@@ -1,0 +1,61 @@
+{{template "layouts/base" .}}
+
+{{define "title"}}Registrar empresa{{end}}
+
+{{define "resources"}}
+<link rel="stylesheet" href="/static/css/forms.css" />
+<link rel="stylesheet" href="/static/css/pages/admin-common.css" />
+{{end}}
+
+
+{{define "page"}}
+<section class="admin-page">
+	{{with .Errors}}
+		<div class="form-message form-message--error">{{.Get "generic"}}</div>
+	{{end}}
+
+	<div class="admin-page__header">
+		<h1 class="admin-page__title">Registrar empresa</h1>
+	</div>
+
+	<form class="page-form" action="/admin/companies/__new" method="post">
+
+		<div class="page-form__options">
+			<button type="submit">Registrar</button>
+			<a href="/admin/companies">Cancelar</a>
+		</div>
+
+		<div class="page-form__inputs">
+			<div class="form__group">
+				<label for="name">Nombre</label>
+				<div>
+					<input
+						type="text"
+						name="name"
+						id="name"
+						placeholder="Nombre"
+						autocapitalize="off"
+						autocomplete="off"
+						required
+					/>
+				</div>
+			</div>
+			<div class="form__group">
+				<label for="logo_url">Logo URL</label>
+				<div>
+					<input
+						type="text"
+						name="logo_url"
+						id="logo_url"
+						placeholder="Logo URL"
+						autocapitalize="off"
+						autocomplete="off"
+						required
+					/>
+				</div>
+			</div>
+		</div>
+	</form>
+</section>
+{{end}}
+
