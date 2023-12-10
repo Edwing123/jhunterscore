@@ -6,12 +6,12 @@
 /* Admin page header styles. */
 .admin-page__title {
 	font-size: var(--font-size-medium);
-	margin-top: var(--sizing-large);
 }
 
 .admin-page__header {
 	display: flex;
-	align-items: baseline;
+	align-items: center;
+	margin: var(--sizing-medium) 0;
 }
 
 .admin-page__options {
@@ -30,7 +30,7 @@
 
 /* The container that has the input groups. */
 .page-form__options {
-	margin: var(--sizing-medium) 0;
+	margin: 0 0 var(--sizing-medium);
 	display: flex;
 	gap: 2rem;
 }
@@ -45,4 +45,46 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1.5rem;
+}
+
+/* Everything below the admin page header (title, options, form options) is of the same font-size. */
+.page-form__inputs, .page-table {
+	font-size: var(--font-size-xsmall);
+}
+
+
+/* Table styling */
+.page-table {
+	width: 100%;
+}
+
+.page-table :is(th, td) {
+	text-align-last: left;
+	padding: 1.5rem;
+}
+
+.page-table thead tr {
+	background-color: var(--theme-text-white);
+}
+
+.page-table td {
+	font-weight: var(--font-weight-medium);
+}
+
+.row-options {
+	display: flex;
+	gap: 0.8rem;
+}
+
+.row-options svg {
+	width: var(--theme-icons-size-small);
+	height: var(--theme-icons-size-small);
+}
+
+.row-options__edit svg {
+	fill: var(--theme-text-black);
+}
+
+.row-options__delete svg {
+	fill: var(--theme-error-color);
 }

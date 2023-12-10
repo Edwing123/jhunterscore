@@ -19,7 +19,7 @@
 	{{if eq (len .Files) 0}}
 		<p class="info-message">No hay archivos creados aun.</p>
 	{{else}}
-		<table>
+		<table class="page-table">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -44,12 +44,12 @@
 						<td>{{$file.CreatedAt}}</td>
 						<td>
 							<div class="row-options">
-								<a href="/admin/files/edit/{{$file.Id}}" title="Editar" aria-label="Editar">
+								<a class="row-options__edit" href="/admin/files/edit/{{$file.Id}}" title="Editar" aria-label="Editar">
 									{{template "components/icon" "pencil"}}
 								</a>
-								<form action="/admin/files/delete" method="post">
-									<input type="text" name="file_id" hidden value="{{$file.Id}}" />
-									<button type="submit" title="Eliminar" aria-label="Eliminar">
+								<form action="/admin/files/__delete" method="post">
+									<input type="hidden" name="file_id" hidden value="{{$file.Id}}" />
+									<button class="row-options__delete" type="submit" title="Eliminar" aria-label="Eliminar">
 										{{template "components/icon" "trash"}}
 									</button>
 								</form>
