@@ -8,8 +8,8 @@
 	font-size: var(--font-size-medium);
 	font-weight: var(--font-weight-bold);
 	color: var(--theme-text-black);
-	margin-top: var(--sizing-large);
-	margin-bottom: var(--sizing-medium);
+	margin-top: var(--sizing-xlarge);
+	margin-bottom: var(--sizing-large);
 }
 
 .login-form {
@@ -26,10 +26,6 @@
 /* All groups have a bottom margin, except the last one. */
 .auth-form__group:not(:last-child) {
 	margin-bottom: 2rem;
-}
-
-.auth-form__group label {
-	margin-bottom: var(--sizing-xsmall);
 }
 
 /* The div that contains the icon + input. */

@@ -11,6 +11,7 @@
 	--theme-form-placeholder-color: var(--color-gray-1);
 	--theme-form-input-bg-color: var(--color-gray-3);
 	--theme-input-font-size: var(--font-size-xsmall);
+	--theme-form-label-margin-bottom: var(--sizing-xsmall);
 }
 
 .form-message {
@@ -37,9 +38,6 @@
 }
 
 label, input, textarea, button {
-	display: inline-block;
-	border: none;
-	outline: none;
 	font-size: var(--theme-input-font-size);
 	color: var(--theme-form-input-color);
 	font-weight: var(--font-weight-bold);
@@ -58,6 +56,12 @@ input, textarea {
 	background-color: var(--theme-form-input-bg-color);
 }
 
+/* All labels have the same margin bottom. */
+label {
+	margin-bottom: var(--theme-form-label-margin-bottom);
+}
+
+/* All the placeholders have the same color. */
 input::placeholder {
 	color: var(--theme-form-placeholder-color);
 }

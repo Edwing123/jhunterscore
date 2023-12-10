@@ -1,0 +1,46 @@
+{{template "layouts/base" .}}
+
+{{define "title"}}Crear archivo{{end}}
+
+{{define "resources"}}
+<link rel="stylesheet" href="/static/css/forms.css" />
+<link rel="stylesheet" href="/static/css/pages/admin-common.css" />
+{{end}}
+
+
+{{define "page"}}
+<section class="admin-page">
+	{{with .Errors}}
+		<div class="form-message form-message--error">{{.Get "generic"}}</div>
+	{{end}}
+
+	<div class="admin-page__header">
+		<h1 class="admin-page__title">Crear archivo</h1>
+	</div>
+
+	<form class="page-form" action="/admin/files/__new" method="post" enctype="multipart/form-data">
+
+		<div class="page-form__options">
+			<button type="submit">Subir</button>
+			<a href="/admin/files">Cancelar</a>
+		</div>
+
+		<div class="page-form__inputs">
+			<div class="form__group">
+				<label for="filename">Nombre descriptivo</label>
+				<div>
+					<input type="text" name="filename" id="filename" placeholder="Nombre descriptivo" />
+				</div>
+			</div>
+			<div class="form__group">
+				<label for="file">Archivo</label>
+				{{$acceptedFormats := "image/png,image/jpeg,.pdf,.docx,text/*,audio/*,video/*"}}
+				<div>
+					<input type="file" name="file" id="file" accept="{{$acceptedFormats}}" />
+				</div>
+			</div>
+		</div>
+	</form>
+</section>
+{{end}}
+

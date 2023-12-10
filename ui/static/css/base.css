@@ -25,8 +25,9 @@ a:is(:focus-visible, :active) {
 	/* Sizing */
 	--sizing-xsmall: 1rem;
 	--sizing-small: 1.5rem;
-	--sizing-medium: 6rem;
-	--sizing-large: 11rem;
+	--sizing-medium: 4rem;
+	--sizing-large: 6rem;
+	--sizing-xlarge: 11rem;
 
 	/* Fonts */
 	--font-base-size: 62.5%;
@@ -49,7 +50,7 @@ a:is(:focus-visible, :active) {
 	--theme-success-color: var(--color-green-1);
 	--theme-grayed-out-color: var(--color-gray-2);
 
-	--theme-page-padding-x: var(--sizing-medium);
+	--theme-page-padding-x: var(--sizing-large);
 
 	--theme-icons-size-small: 25px;
 	--theme-icons-size-medium: 32px;
@@ -75,6 +76,11 @@ a, input, textarea, label, button {
 	color: currentColor;
 	background-color: transparent;
 	font-weight: inherit;
+	font-family: inherit;
+
+	display: inline-block;
+	border: none;
+	outline: none;
 }
 
 button, a {

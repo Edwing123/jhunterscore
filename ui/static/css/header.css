@@ -38,12 +38,11 @@
 	fill: var(--theme-grayed-out-color);
 }
 
-.header__logout_form {
+.header__logout-form {
 	margin-left: auto;
 }
 
-.form__button {
-	border: none;
+.logout-form__button {
 	display: flex;
 	gap: 0 1.5rem;
 	align-items: center;
@@ -51,5 +50,7 @@
 	height: 5rem;
 	border-radius: 0.4rem;
 
+	color: var(--theme-text-white);
+	font-size: var(--font-size-small);
 	background-color: var(--color-red-1);
 }

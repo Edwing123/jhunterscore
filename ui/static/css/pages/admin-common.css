@@ -3,12 +3,46 @@
 	color: var(--theme-text-black);
 }
 
-.admin-page-title {
+/* Admin page header styles. */
+.admin-page__title {
 	font-size: var(--font-size-medium);
-	margin-top: var(--sizing-medium);
+	margin-top: var(--sizing-large);
 }
 
+.admin-page__header {
+	display: flex;
+	align-items: baseline;
+}
+
+.admin-page__options {
+	margin-left: auto;
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-bold);
+}
+
+/* Information message. */
 .info-message {
 	font-size: var(--font-size-small);
 	font-weight: var(--font-weight-regular);
+}
+
+/* Form stylings */
+
+/* The container that has the input groups. */
+.page-form__options {
+	margin: var(--sizing-medium) 0;
+	display: flex;
+	gap: 2rem;
+}
+
+.page-form__options :is(button, a) {
+	text-decoration: underline;
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-bold);
+}
+
+.page-form__inputs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.5rem;
 }
