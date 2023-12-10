@@ -8,6 +8,10 @@
 
 {{define "page"}}
 <section class="admin-page">
+	{{with .Errors}}
+		<div class="form-message form-message--error">{{.Get "generic"}}</div>
+	{{end}}
+
 	<div class="admin-page__header">
 		<h1 class="admin-page__title">Archivos</h1>
 		<div class="admin-page__options">

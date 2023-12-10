@@ -104,6 +104,8 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 		ViewData.User = user
 		ViewData.Files = files
 
+		core.ClearErrors(c)
+
 		return c.Render("pages/admin/files/index", ViewData)
 	})
 
@@ -251,5 +253,7 @@ func (core *Core) AdminHandleFilesNew(c *fiber.Ctx) error {
 
 	fmt.Println(file)
 
+	formsErrors.Add("generic", "Archivo creado con exito.")
+	core.SetErrors(formsErrors, c)
 	return c.Redirect("/admin/files", fiber.StatusSeeOther)
 }

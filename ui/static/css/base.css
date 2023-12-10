@@ -86,3 +86,26 @@ a, input, textarea, label, button {
 button, a {
 	cursor: pointer;
 }
+
+.form-message {
+	position: absolute;
+	top: var(--sizing-xsmall);
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: max-content;
+	border-radius: 4px;
+	padding: 1rem 2rem;
+
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-bold);
+	color: var(--theme-text-white);
+}
+
+.form-message--error {
+	background-color: var(--theme-error-color);
+}
+
+.form-message--success {
+	background-color: var(--theme-success-color);
+}
