@@ -1,6 +1,6 @@
 {{define "components/header"}}
 	<header class="header">
-		<span class="username">{{.User.Username}}</span>
+		<span aria-label="Nombre de usuario" role="contentinfo" class="username">{{.User.Username}}</span>
 
 		<nav class="header__navigation">
 			{{range $link := .Links}}
