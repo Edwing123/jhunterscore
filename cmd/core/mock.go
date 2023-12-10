@@ -196,7 +196,7 @@ var (
 func getCompactOffers(offers []models.Offer) []models.CompactOffer {
 	var compactOffers []models.CompactOffer
 
-	for _, offer := range mockOffers {
+	for _, offer := range offers {
 		compactOffers = append(compactOffers, models.CompactOffer{
 			Id:             offer.Id,
 			Title:          offer.Title,
