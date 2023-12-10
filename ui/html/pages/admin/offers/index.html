@@ -2,9 +2,74 @@
 
 {{define "title"}}Ofertas{{end}}
 
+{{define "resources"}}
+	<link rel="stylesheet" href="/static/css/pages/admin-common.css" />
+{{end}}
+
 {{define "page"}}
-<section>
-	<h1>Ofertas</h1>
+<section class="admin-page">
+	{{with .Errors}}
+		{{with .Get "success"}}
+			<div class="form-message form-message--success">{{.}}</div>
+		{{end}}
+
+		{{with .Get "generic"}}
+			<div class="form-message form-message--error">{{.}}</div>
+		{{end}}
+	{{end}}
+
+	<div class="admin-page__header">
+		<h1 class="admin-page__title">Ofertas</h1>
+		<div class="admin-page__options">
+			<a href="/admin/offers/new">Crear oferta</a>
+		</div>
+	</div>
+
+	{{/* If there is not offers, show message. */}}
+	{{if eq (len .Offers) 0}}
+		<p class="info-message">No hay ofertas aun.</p>
+	{{else}}
+		<table class="page-table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Titulo</th>
+					<th>Rol</th>
+					<th>Empresa</th>
+					<th>Contrato</th>
+					<th>Fecha de creacion</th>
+					<th>Estado</th>
+					<th>Opciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{range $index, $offer := .Offers}}
+					<tr>
+						<td>{{$index}}</td>
+						<th>{{$offer.Title}}</th>
+						<th>{{$offer.Role}}</th>
+						<th>{{$offer.Company}}</th>
+						<th>{{$offer.Contract}}</th>
+						<th>{{$offer.CreatedAt}}</th>
+						<th>{{if $offer.IsPublished}}Publicado{{else}}Borrador{{end}}</th>
+						<td>
+							<div class="row-options">
+								<a class="row-options__edit" href="/admin/offers/edit/{{$offer.Id}}" title="Editar" aria-label="Editar">
+									{{template "components/icon" "pencil"}}
+								</a>
+								<form action="/admin/offers/__delete" method="post">
+									<input type="hidden" name="offer_id" hidden value="{{$offer.Id}}" />
+									<button class="row-options__delete" type="submit" title="Eliminar" aria-label="Eliminar">
+										{{template "components/icon" "trash"}}
+									</button>
+								</form>
+							</div>
+						</td>
+					</tr>
+				{{end}}
+			</tbody>
+		</table>
+	{{end}}
 </section>
 {{end}}
 
