@@ -50,7 +50,7 @@ const (
 	`
 
 	SELECT_ALL_FILES = `
-	SELECT "file_id", "name", "mime_type", "path", "size", ("u"."first_name" || ' ' || "u"."last_name") AS "author", "created_at"
+	SELECT "file_id", "name", "mime_type", "path", "size", ("u"."first_name" || ' ' || "u"."last_name") AS "author", "f"."created_at"
 	FROM "files" AS "f"
 	INNER JOIN "users" AS "u"
 	ON "f"."user_id" = "u"."user_id";
