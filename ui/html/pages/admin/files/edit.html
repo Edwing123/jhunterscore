@@ -31,7 +31,16 @@
 			<div class="form__group">
 				<label for="filename">Nombre descriptivo</label>
 				<div>
-					<input type="text" value="{{.File.Name}}" name="filename" id="filename" placeholder="Nombre descriptivo" />
+					<input
+						type="text"
+						value="{{.File.Name}}"
+						name="filename"
+						id="filename"
+						placeholder="Nombre descriptivo"
+						autocapitalize="off"
+						autocomplete="off"
+						required
+					/>
 				</div>
 			</div>
 		</div>
