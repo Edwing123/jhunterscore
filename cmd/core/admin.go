@@ -124,8 +124,40 @@ func (core *Core) SetupAdmin(app *fiber.App) {
 		return c.Render("pages/admin/files/new", ViewData)
 	})
 
+	files.Get("/edit/:id<int>", func(c *fiber.Ctx) error {
+		userId := core.GetUserId(c)
+		user, err := core.Database.UsersRepository.GetById(userId)
+
+		if err != nil {
+			return fiber.ErrInternalServerError
+		}
+
+		errorsBag := forms.Errors{}
+
+		fileId, _ := c.ParamsInt("id")
+
+		file, err := core.Database.FilesRepository.GetById(fileId)
+		if err != nil {
+			if errors.Is(err, database.ErrNoRows) {
+				errorsBag.Add("generic", fmt.Sprintf("El archivo con id %d no existe.", fileId))
+				core.SetErrors(errorsBag, c)
+				return c.Redirect("/admin/files", fiber.StatusSeeOther)
+			}
+
+			return fiber.ErrInternalServerError
+		}
+
+		ViewData := core.GetCommonViewData(c)
+		ViewData.User = user
+		ViewData.File = file
+		core.ClearErrors(c)
+
+		return c.Render("pages/admin/files/edit", ViewData)
+	})
+
 	files.Post("/__new", core.AdminHandleFilesNew)
 	files.Post("/__delete", core.AdminHandleFilesDelete)
+	files.Post("/__edit", core.AdminHandleFilesEdit)
 
 	// Companies pages.
 	companies := admin.Group("/companies", core.RequireAdmin)
@@ -249,7 +281,7 @@ func (core *Core) AdminHandleFilesNew(c *fiber.Ctx) error {
 		return fiber.ErrInternalServerError
 	}
 
-	formsErrors.Add("generic", "Archivo creado con exito.")
+	formsErrors.Add("success", "Archivo creado con exito.")
 	core.SetErrors(formsErrors, c)
 	return c.Redirect("/admin/files", fiber.StatusSeeOther)
 }
@@ -261,7 +293,7 @@ func (core *Core) AdminHandleFilesDelete(c *fiber.Ctx) error {
 
 	redirect := func() error {
 		core.SetErrors(errorsBag, c)
-		return c.Redirect("/admin/files")
+		return c.Redirect("/admin/files", fiber.StatusSeeOther)
 	}
 
 	fileIdStr := c.FormValue("file_id")
@@ -307,4 +339,60 @@ func (core *Core) AdminHandleFilesDelete(c *fiber.Ctx) error {
 
 	errorsBag.Add("success", "Archivo eliminado.")
 	return redirect()
+}
+
+func (core *Core) AdminHandleFilesEdit(c *fiber.Ctx) error {
+	errorsBag := forms.Errors{}
+	currentUserId := core.GetUserId(c)
+	currentUserRole := core.GetUserRole(c)
+
+	redirectIndex := func() error {
+		core.SetErrors(errorsBag, c)
+		return c.Redirect("/admin/files", fiber.StatusSeeOther)
+	}
+
+	redirectEdit := func(id int) error {
+		core.SetErrors(errorsBag, c)
+		return c.Redirect(fmt.Sprintf("/admin/files/edit/%d", id), fiber.StatusSeeOther)
+	}
+
+	fileIdStr := c.FormValue("file_id")
+	fileId, err := strconv.Atoi(fileIdStr)
+	if err != nil {
+		errorsBag.Add("generic", "Hay un problema con el id del archivo.")
+		return redirectIndex()
+	}
+
+	filename := c.FormValue("filename")
+	if forms.IsEmpty(filename) {
+		errorsBag.Add("generic", "El campo nombre no puede estar vacio.")
+		return redirectEdit(fileId)
+	}
+
+	fileUserId, err := core.Database.FilesRepository.GetFileUserIdByFileId(fileId)
+	if err != nil {
+		errorsBag.Add("generic", "No se puede editar el archivo.")
+		return redirectIndex()
+	}
+
+	if currentUserId != fileUserId && currentUserRole != "admin" {
+		errorsBag.Add("generic", "No puedes editar el archivo porque no eres el creador.")
+		return redirectIndex()
+	}
+
+	_, err = core.Database.FilesRepository.Update(models.File{
+		Id:   fileId,
+		Name: filename,
+	})
+	if err != nil {
+		if errors.Is(err, database.ErrFileNameTaken) {
+			errorsBag.Add("generic", "Ya existe un archivo con este nombre.")
+			return redirectEdit(fileId)
+		}
+
+		return fiber.ErrInternalServerError
+	}
+
+	errorsBag.Add("success", "Archivo editado.")
+	return redirectIndex()
 }

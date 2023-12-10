@@ -1,0 +1,41 @@
+{{template "layouts/base" .}}
+
+{{define "title"}}Editar archivo{{end}}
+
+{{define "resources"}}
+<link rel="stylesheet" href="/static/css/forms.css" />
+<link rel="stylesheet" href="/static/css/pages/admin-common.css" />
+{{end}}
+
+
+{{define "page"}}
+<section class="admin-page">
+	{{with .Errors}}
+		<div class="form-message form-message--error">{{.Get "generic"}}</div>
+	{{end}}
+
+	<div class="admin-page__header">
+		<h1 class="admin-page__title">Editar archivo</h1>
+	</div>
+
+	<form class="page-form" action="/admin/files/__edit" method="post">
+		<input type="hidden" name="file_id" value="{{.File.Id}}" />
+
+
+		<div class="page-form__options">
+			<button type="submit">Guardar</button>
+			<a href="/admin/files">Cancelar</a>
+		</div>
+
+		<div class="page-form__inputs">
+			<div class="form__group">
+				<label for="filename">Nombre descriptivo</label>
+				<div>
+					<input type="text" value="{{.File.Name}}" name="filename" id="filename" placeholder="Nombre descriptivo" />
+				</div>
+			</div>
+		</div>
+	</form>
+</section>
+{{end}}
+
