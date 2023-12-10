@@ -133,7 +133,7 @@ func (core *Core) AdminHandleLogin(c *fiber.Ctx) error {
 	id, err := core.Database.AuthRepository.Login(username, password)
 	if err != nil {
 		if errors.Is(err, database.ErrAuth) {
-			formErrors.Add("generic", "Credenciales invalidas")
+			formErrors.Add("generic", "Usuario o contraseña invalido")
 			viewData.Errors = formErrors
 
 			return c.Render(
